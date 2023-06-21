@@ -1,0 +1,22 @@
+<resources>
+    <!--  app  -->
+    <string name="app_name">Dividimos</string>
+
+    <!--  dish  -->
+    <string name="dish_dialog_price_label">Preço</string>
+    <string name="dish_dialog_name_placeholder">Nome do item</string>
+    <string name="dish_dialog_add_button_template">Adicionar (%1s)</string>
+    <string name="dishes_alert">Sua mesa está vazia</string>
+
+    <!-- Check -->
+    <string name="check_alert"> %1s não consumiu…</string>
+
+    <!--  guest  -->
+    <string name="guest_dialog_name_placeholder">Nome</string>
+    <string name="guest_dialog_add_button_label">Adicionar</string>
+    <string name="guest_alert">Adicione convidados à mesa</string>
+
+    <!--  header   -->
+    <string name="header_title">Dividimos</string>
+    <string name="error_msg_dish_name">Campo obrigatório</string>
+</resources>
