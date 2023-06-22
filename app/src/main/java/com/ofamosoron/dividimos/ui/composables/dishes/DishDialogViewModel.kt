@@ -42,7 +42,7 @@ class DishDialogViewModel @Inject constructor(
                 if (event.price.isBlank() || (event.price.isNotBlank() && event.price.toFloat() == 0F)) {
                     _state.value = _state.value.copy(
                         dishPrice = event.price,
-                        dishPriceError = "O preço inválido"
+                        dishPriceError = "Preço inválido"
                     )
                 } else {
                     _state.value = _state.value.copy(dishPrice = event.price, dishPriceError = null)
@@ -65,7 +65,7 @@ class DishDialogViewModel @Inject constructor(
                         _state.value = _state.value.copy(
                             dishPrice = event.price,
                             dishName = event.name,
-                            dishPriceError = "O preço inválido"
+                            dishPriceError = "Preço inválido"
                         )
                         true
                     }
@@ -73,15 +73,19 @@ class DishDialogViewModel @Inject constructor(
                         _state.value = _state.value.copy(
                             dishPrice = event.price,
                             dishName = event.name,
-                            dishPriceError = "O preço inválido"
+                            dishPriceError = "Preço inválido"
                         )
                         true
                     }
                     else -> {
-                        _state.value =
-                            _state.value.copy(dishPrice = event.price, dishPriceError = null)
-                        _state.value =
-                            _state.value.copy(dishName = event.name, dishNameError = null)
+                        _state.value = _state.value.copy(
+                            dishPrice = event.price,
+                            dishPriceError = null
+                        )
+                        _state.value = _state.value.copy(
+                            dishName = event.name,
+                            dishNameError = null
+                        )
                         false
                     }
                 }

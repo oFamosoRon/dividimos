@@ -95,12 +95,11 @@ fun Home(
                 if (state.value.guests.isEmpty()) {
                     Text(
                         text = stringResource(R.string.guest_alert),
-                        style = TextStyle(
-                            color = MaterialTheme.colorScheme.primary,
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = Modifier.alpha(0.2F).align(Alignment.BottomCenter)
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.headlineMedium,
+                        modifier = Modifier
+                            .alpha(0.2F)
+                            .align(Alignment.BottomCenter)
                     )
                 } else {
                     GuestsContainer(

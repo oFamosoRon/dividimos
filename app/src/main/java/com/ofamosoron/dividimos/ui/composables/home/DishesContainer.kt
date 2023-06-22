@@ -7,23 +7,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ofamosoron.dividimos.domain.models.Dish
 import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.ui.drag_and_drop.DropTarget
 import com.ofamosoron.dividimos.ui.util.CounterTag
+import com.ofamosoron.dividimos.ui.util.EditButton
 import com.ofamosoron.dividimos.util.formatMoney
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -96,10 +91,8 @@ fun DishCard(
                 ) {
                     Text(
                         text = dish.name,
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            color = MaterialTheme.colorScheme.surface
-                        )
+                        color = MaterialTheme.colorScheme.surface,
+                        style = MaterialTheme.typography.headlineMedium
                     )
                     CounterTag(
                         color = MaterialTheme.colorScheme.secondary,
@@ -109,11 +102,8 @@ fun DishCard(
                 }
                 Text(
                     text = "Total: ${(dish.price.cents * dish.qnt).formatMoney()}",
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.surface,
-                        fontStyle = FontStyle.Italic
-                    )
+                    color = MaterialTheme.colorScheme.surface,
+                    style = MaterialTheme.typography.bodySmall
                 )
             }
         }
@@ -125,22 +115,5 @@ fun DishCard(
         ) {
             EditButton()
         }
-    }
-}
-
-@Composable
-fun EditButton() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .clip(MaterialTheme.shapes.medium)
-            .size(width = 50.dp, height = 30.dp)
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-    ) {
-        Icon(
-            Icons.Outlined.Edit,
-            contentDescription = "edit",
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
     }
 }

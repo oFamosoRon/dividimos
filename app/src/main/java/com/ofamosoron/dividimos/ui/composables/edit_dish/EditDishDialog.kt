@@ -88,9 +88,8 @@ fun EditDishDialog(
 
             Text(
                 text = state.value.dish.name,
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.headlineMedium,
             )
             Spacer(modifier = Modifier.padding(6.dp))
             Divider()

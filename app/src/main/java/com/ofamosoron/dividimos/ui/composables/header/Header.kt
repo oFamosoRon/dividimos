@@ -10,13 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.ui.composables.home.ActionMenu
 import com.ofamosoron.dividimos.util.formatMoney
-import com.ofamosoron.dividimos.R
 
 @Composable
 fun Header(
@@ -35,16 +32,13 @@ fun Header(
     ) {
         Text(
             text = stringResource(R.string.header_title),
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.headlineMedium
         )
         Spacer(modifier = Modifier.padding(4.dp))
         Text(
             text = total.formatMoney(),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Italic,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary,
         )
         Box(

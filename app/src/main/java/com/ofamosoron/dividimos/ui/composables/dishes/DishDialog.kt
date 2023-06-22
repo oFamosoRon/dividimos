@@ -74,7 +74,8 @@ fun DishDialog(
                 if (!state.value.dishNameError.isNullOrBlank()) {
                     Text(
                         text = "${state.value.dishNameError}",
-                        style = TextStyle(color = MaterialTheme.colorScheme.error, fontSize = 12.sp)
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
                 Spacer(modifier = Modifier.padding(8.dp))
@@ -95,7 +96,8 @@ fun DishDialog(
                 if (!state.value.dishPriceError.isNullOrBlank()) {
                     Text(
                         text = "${state.value.dishPriceError}",
-                        style = TextStyle(color = MaterialTheme.colorScheme.error, fontSize = 12.sp)
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
                 Spacer(modifier = Modifier.padding(8.dp))

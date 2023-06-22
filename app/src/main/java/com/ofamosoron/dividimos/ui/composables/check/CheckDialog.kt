@@ -1,6 +1,7 @@
 package com.ofamosoron.dividimos.ui.composables.check
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.excludeFromSystemGesture
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -70,17 +71,14 @@ fun CheckDialog(
                     val total = state.value.checks.sumOf { it.total.cents }
                     Text(
                         text = state.value.guest.name,
-                        fontSize = 26.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.headlineMedium,
                     )
                     Spacer(modifier = Modifier.padding(6.dp))
                     Text(
                         text = total.formatMoney(),
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Normal,
-                        fontStyle = FontStyle.Italic,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.headlineMedium,
                     )
                 }
                 Spacer(modifier = Modifier.padding(6.dp))

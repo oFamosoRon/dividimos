@@ -31,11 +31,8 @@ fun EmptyScreen(
     ) {
         Text(
             text = stringResource(msg),
-            style = TextStyle(
-                color = MaterialTheme.colorScheme.primary,
-                fontSize = fontSize,
-                fontWeight = FontWeight.Bold
-            ),
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.alpha(0.2F)
         )
         Spacer(modifier = Modifier.padding(space))

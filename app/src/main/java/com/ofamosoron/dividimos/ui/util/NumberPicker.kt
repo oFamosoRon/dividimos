@@ -48,12 +48,9 @@ fun NumberPicker(
             NPButton(text = "-")
         }
         Text(
-            text = "$value", style = TextStyle(
-                color = MaterialTheme.colorScheme.primary,
-                fontStyle = FontStyle.Normal,
-                fontWeight = FontWeight.Bold,
-                fontSize = 28.sp
-            )
+            text = "$value",
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.primary
         )
         TextButton(onClick = {
             if (value < maxValue) {
@@ -81,9 +78,9 @@ private fun NPButton(text: String) {
     ) {
         Text(
             text = text,
-            style = TextStyle(fontSize = 28.sp),
+            color = MaterialTheme.colorScheme.surface,
+            style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.align(Alignment.Center),
-            color = MaterialTheme.colorScheme.surface
         )
     }
 }
