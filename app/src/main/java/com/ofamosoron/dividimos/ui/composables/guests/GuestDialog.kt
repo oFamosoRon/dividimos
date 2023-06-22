@@ -73,7 +73,7 @@ fun GuestDialog(
             IconButton(onClick = onDismiss, modifier = Modifier.align(Alignment.TopEnd)) {
                 Icon(
                     imageVector = Icons.Filled.Close,
-                    contentDescription = "",
+                    contentDescription = "close",
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }

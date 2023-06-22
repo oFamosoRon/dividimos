@@ -59,14 +59,14 @@ fun Header(
                     Icon(
                         painter = painterResource(id = R.drawable.ic_add_dish),
                         tint = MaterialTheme.colorScheme.primary,
-                        contentDescription = ""
+                        contentDescription = "add dish"
                     )
                 }
                 IconButton(onClick = addNewGuest) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_add_guest),
                         tint = MaterialTheme.colorScheme.primary,
-                        contentDescription = ""
+                        contentDescription = "add guest"
                     )
                 }
                 ActionMenu(

@@ -148,7 +148,7 @@ fun EditDishDialog(
                             }) {
                                 Icon(
                                     Icons.Filled.Close,
-                                    contentDescription = "",
+                                    contentDescription = "close",
                                     tint = MaterialTheme.colorScheme.onSurface
                                 )
                             }

@@ -139,7 +139,7 @@ fun EditButton() {
     ) {
         Icon(
             Icons.Outlined.Edit,
-            contentDescription = "",
+            contentDescription = "edit",
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
