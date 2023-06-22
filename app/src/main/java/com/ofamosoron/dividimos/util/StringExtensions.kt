@@ -6,7 +6,7 @@ import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
 
-private const val REPLACE: String = "[R$,.\u00A0]"
+private const val REPLACE: String = "[R$,.\u00A0\nA-Za-z]"
 
 fun String.toMoney(): Money =
     this.replace(REPLACE.toRegex(), "").toLong().toMoney()

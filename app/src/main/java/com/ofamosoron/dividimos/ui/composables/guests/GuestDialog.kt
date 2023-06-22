@@ -48,6 +48,7 @@ fun GuestDialog(
                     value = name,
                     onValueChange = { name = it },
                     placeholder = { Text(stringResource(id = R.string.guest_dialog_name_placeholder)) },
+                    singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(modifier = Modifier.padding(8.dp))

@@ -63,6 +63,7 @@ fun DishDialog(
             ) {
                 OutlinedTextField(
                     value = state.value.dishName,
+                    singleLine = true,
                     onValueChange = {
                         viewModel.onEvent(FormValidationEvent.NameChanged(name = it))
                     },
@@ -79,6 +80,7 @@ fun DishDialog(
                 Spacer(modifier = Modifier.padding(8.dp))
                 OutlinedTextField(
                     value = state.value.dishPrice.formatMoney(),
+                    singleLine = true,
                     onValueChange = {
                         val newValue = it.toMoney().cents.toString()
                         viewModel.onEvent(FormValidationEvent.PriceChanged(price = newValue))

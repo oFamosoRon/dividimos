@@ -106,6 +106,7 @@ fun EditDishDialog(
                     onValueChange = {
                         viewModel.onEvent(EditEvent.Price(price = it))
                     },
+                    singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
