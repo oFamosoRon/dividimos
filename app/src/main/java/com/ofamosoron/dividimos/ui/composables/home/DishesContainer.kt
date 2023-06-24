@@ -82,17 +82,17 @@ fun DishCard(
                 .clickable { onClick(dish.id) }
         ) {
             Column(
-                modifier = Modifier.padding(16.dp)
+
             ) {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().padding(8.dp)
                 ) {
                     Text(
                         text = dish.name,
                         color = MaterialTheme.colorScheme.surface,
-                        style = MaterialTheme.typography.headlineMedium
+                        style = MaterialTheme.typography.headlineSmall
                     )
                     CounterTag(
                         color = MaterialTheme.colorScheme.secondary,
@@ -103,7 +103,8 @@ fun DishCard(
                 Text(
                     text = "Total: ${(dish.price.cents * dish.qnt).formatMoney()}",
                     color = MaterialTheme.colorScheme.surface,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(8.dp)
                 )
             }
         }

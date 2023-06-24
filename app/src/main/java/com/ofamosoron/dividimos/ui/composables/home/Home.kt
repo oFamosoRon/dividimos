@@ -96,10 +96,11 @@ fun Home(
                     Text(
                         text = stringResource(R.string.guest_alert),
                         color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.headlineMedium,
+                        style = MaterialTheme.typography.headlineSmall,
                         modifier = Modifier
                             .alpha(0.2F)
                             .align(Alignment.BottomCenter)
+                            .padding(4.dp)
                     )
                 } else {
                     GuestsContainer(
