@@ -79,4 +79,7 @@ dependencies {
 
     //datetime
     implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
+
+    //compose navigation
+    implementation "androidx.navigation:navigation-compose:2.6.0"
 }
