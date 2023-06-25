@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.ofamosoron.dividimos.ui.MainViewModel
 import com.ofamosoron.dividimos.ui.composables.check.CheckDialog
 import com.ofamosoron.dividimos.ui.composables.dishes.DishDialog
@@ -27,7 +28,8 @@ import com.ofamosoron.dividimos.R
 
 @Composable
 fun Home(
-    viewModel: MainViewModel = hiltViewModel()
+    viewModel: MainViewModel = hiltViewModel(),
+    navController: NavController,
 ) {
     val state = viewModel.mainState.collectAsState()
 
