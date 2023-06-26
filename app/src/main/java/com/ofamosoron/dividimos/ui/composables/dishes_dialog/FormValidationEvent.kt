@@ -1,4 +1,4 @@
-package com.ofamosoron.dividimos.ui.composables.dishes
+package com.ofamosoron.dividimos.ui.composables.dishes_dialog
 
 sealed class FormValidationEvent {
     data class NameChanged(val name: String) : FormValidationEvent()
