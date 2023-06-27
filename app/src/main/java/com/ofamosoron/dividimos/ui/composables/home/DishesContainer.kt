@@ -17,10 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ofamosoron.dividimos.domain.models.Dish
+import com.ofamosoron.dividimos.domain.models.DishToGuests
 import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.domain.models.Money
 import com.ofamosoron.dividimos.ui.drag_and_drop.DropTarget
@@ -29,11 +29,11 @@ import com.ofamosoron.dividimos.ui.util.CounterTag
 import com.ofamosoron.dividimos.ui.util.EditButton
 import com.ofamosoron.dividimos.util.formatMoney
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BoxScope.DishesContainer(
+    guests: List<DishToGuests>,
     dishes: List<Dish>,
     onClick: (Int) -> Unit,
     onDrop: (guestUuid: String, dishUuid: String) -> Unit,
@@ -54,7 +54,8 @@ fun BoxScope.DishesContainer(
                     onDrop(guestUuid, dishUuid)
                 },
                 onClick = { onClick(dish.id) },
-                onEditClick = { onLongPress(dish.uuid) }
+                onEditClick = { onLongPress(dish.uuid) },
+                guests = guests.find { it.dishUuid == dish.uuid }?.guests ?: emptyList()
             )
         }
     }
@@ -63,6 +64,7 @@ fun BoxScope.DishesContainer(
 
 @Composable
 fun DishCard(
+    guests: List<Guest>,
     dish: Dish,
     onClick: (Int) -> Unit,
     onDrop: (guestUuid: String, dishUuid: String) -> Unit,
@@ -137,11 +139,20 @@ fun DishCard(
         }
         Box(
             modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(end = 8.dp, bottom = 8.dp)
-                .clickable { onEditClick(dish.uuid) }
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp, end = 8.dp)
         ) {
-            EditButton()
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                if (guests.isNotEmpty()) {
+                    GuestIndicatorContainer(guests = guests.map { it.name })
+                }
+                EditButton(onClick = { onEditClick(dish.uuid) }, dishUuid = dish.uuid)
+            }
         }
 
         Box(
@@ -173,8 +184,13 @@ fun previewDishCard() {
                 guests = emptyList(),
                 createdAt = Clock.System.now(),
                 checkId = ""
-            ), onClick = {}, onDrop = { guestUuid: String, dishUuid: String ->
+            ),
+            onClick = {},
+            onDrop = { guestUuid: String, dishUuid: String ->
 
-            }, onEditClick = {})
+            },
+            onEditClick = {},
+            guests = listOf(Guest(name = "Roney"), Guest(name = "Bia"), Guest(name = "Andre"))
+        )
     }
 }

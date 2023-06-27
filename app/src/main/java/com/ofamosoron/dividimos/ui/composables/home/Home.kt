@@ -13,15 +13,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.ui.MainViewModel
 import com.ofamosoron.dividimos.ui.composables.check.CheckDialog
 import com.ofamosoron.dividimos.ui.composables.dishes_dialog.DishDialog
 import com.ofamosoron.dividimos.ui.composables.edit_dish.EditDishDialog
 import com.ofamosoron.dividimos.ui.composables.guest_dialog.GuestDialog
 import com.ofamosoron.dividimos.ui.composables.header.Header
-import com.ofamosoron.dividimos.ui.drag_and_drop.*
+import com.ofamosoron.dividimos.ui.drag_and_drop.LongPressDraggable
 import com.ofamosoron.dividimos.ui.util.EmptyScreen
-import com.ofamosoron.dividimos.R
 
 @Composable
 fun Home(
@@ -55,7 +55,8 @@ fun Home(
                 )
                 is MainViewModel.DialogType.EditDishDialog -> EditDishDialog(
                     onDismiss = { viewModel.dismissDialog() },
-                    dishUui = (dialogType as? MainViewModel.DialogType.EditDishDialog)?.dishUuid ?: ""
+                    dishUui = (dialogType as? MainViewModel.DialogType.EditDishDialog)?.dishUuid
+                        ?: ""
                 )
             }
         }
@@ -79,15 +80,18 @@ fun Home(
                             .align(Alignment.TopCenter)
                             .height(420.dp)
                     ) {
-                        DishesContainer(state.value.dishes, onClick = { dishId ->
-                            viewModel.dishPlusOne(dishId)
-                        }, onDrop = { guestUuid, dishUuid ->
-                            viewModel.addGuestToDish(guestUuid = guestUuid, dishUuid = dishUuid)
-                        }, onLongPress = { dishUuid: String ->
-                            viewModel.openDialog(
-                                MainViewModel.DialogType.EditDishDialog(dishUuid = dishUuid)
-                            )
-                        })
+                        DishesContainer(
+                            dishes = state.value.dishes,
+                            guests = state.value.dishesToGuests,
+                            onClick = { dishId ->
+                                viewModel.dishPlusOne(dishId)
+                            }, onDrop = { guestUuid, dishUuid ->
+                                viewModel.addGuestToDish(guestUuid = guestUuid, dishUuid = dishUuid)
+                            }, onLongPress = { dishUuid: String ->
+                                viewModel.openDialog(
+                                    MainViewModel.DialogType.EditDishDialog(dishUuid = dishUuid)
+                                )
+                            })
                     }
                 }
 
