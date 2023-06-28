@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ofamosoron.dividimos.domain.models.Dish
 import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.domain.usecase.*
+import com.ofamosoron.dividimos.util.dishToGuests
 import com.ofamosoron.dividimos.util.formatMoney
 import com.ofamosoron.dividimos.util.toMoney
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -139,7 +140,6 @@ class MainViewModel @Inject constructor(
         }
     }
 
-
     private fun updateState() = viewModelScope.launch {
         combine(getAllGuestsUseCase(), getAllDishesUseCase()) { guests, dishes ->
             guests to dishes
@@ -147,6 +147,7 @@ class MainViewModel @Inject constructor(
             _mainState.value = _mainState.value.copy(
                 dishes = dishes,
                 guests = guests,
+                dishesToGuests = dishes.map { dishToGuests(it, guests) }
             )
         }
     }
