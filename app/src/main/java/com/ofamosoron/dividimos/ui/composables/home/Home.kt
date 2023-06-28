@@ -15,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.ui.MainViewModel
+import com.ofamosoron.dividimos.ui.composables.action_menu.CloseTableDialog
 import com.ofamosoron.dividimos.ui.composables.check.CheckDialog
 import com.ofamosoron.dividimos.ui.composables.dishes_dialog.DishDialog
 import com.ofamosoron.dividimos.ui.composables.edit_dish.EditDishDialog
@@ -58,13 +59,20 @@ fun Home(
                     dishUui = (dialogType as? MainViewModel.DialogType.EditDishDialog)?.dishUuid
                         ?: ""
                 )
+                is MainViewModel.DialogType.ClearTableDialog -> CloseTableDialog(
+                    onDismiss = { viewModel.dismissDialog() },
+                    onProceed = {
+                        viewModel.dismissDialog()
+                        viewModel.clearDatabase()
+                    }
+                )
             }
         }
         Column(modifier = Modifier.fillMaxSize()) {
             Header(
                 addNewDish = { viewModel.openDialog(MainViewModel.DialogType.DishDialog()) },
                 addNewGuest = { viewModel.openDialog(MainViewModel.DialogType.GuestDialog()) },
-                actionMenuOptionOneClick = { viewModel.clearDatabase() },
+                actionMenuOptionOneClick = { viewModel.openDialog(MainViewModel.DialogType.ClearTableDialog()) },
                 actionMenuOptionTwoClick = { },
                 total = state.value.dishes.sumOf { it.price.cents * it.qnt }
             )

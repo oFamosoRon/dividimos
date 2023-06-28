@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ofamosoron.dividimos.domain.models.Dish
 import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.domain.usecase.*
+import com.ofamosoron.dividimos.ui.composables.action_menu.CloseTableDialog
 import com.ofamosoron.dividimos.util.dishToGuests
 import com.ofamosoron.dividimos.util.formatMoney
 import com.ofamosoron.dividimos.util.toMoney
@@ -58,6 +59,9 @@ class MainViewModel @Inject constructor(
 
             is DialogType.EditDishDialog -> _mainState.value =
                 _mainState.value.copy(openDialog = DialogType.EditDishDialog(false, ""))
+
+            is DialogType.ClearTableDialog -> _mainState.value =
+                _mainState.value.copy(openDialog = DialogType.ClearTableDialog(false))
         }
         //todo think of a better way
         updateState()
@@ -75,6 +79,9 @@ class MainViewModel @Inject constructor(
                 _mainState.value.copy(openDialog = type.copy(isOpen = true))
 
             is DialogType.EditDishDialog -> _mainState.value =
+                _mainState.value.copy(openDialog = type.copy(isOpen = true))
+
+            is DialogType.ClearTableDialog -> _mainState.value =
                 _mainState.value.copy(openDialog = type.copy(isOpen = true))
         }
     }
@@ -155,6 +162,9 @@ class MainViewModel @Inject constructor(
     sealed class DialogType(open val isOpen: Boolean) {
         data class DishDialog(override val isOpen: Boolean = false) : DialogType(isOpen = isOpen)
         data class GuestDialog(override val isOpen: Boolean = false) : DialogType(isOpen = isOpen)
+        data class ClearTableDialog(override val isOpen: Boolean = false) :
+            DialogType(isOpen = isOpen)
+
         data class CheckDialog(override val isOpen: Boolean = false, val guestId: String) :
             DialogType(isOpen = isOpen)
 

@@ -144,15 +144,21 @@ fun DishCard(
                 .padding(bottom = 8.dp, end = 8.dp)
         ) {
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomStart)
             ) {
                 if (guests.isNotEmpty()) {
                     GuestIndicatorContainer(guests = guests.map { it.name })
                 }
-                EditButton(onClick = { onEditClick(dish.uuid) }, dishUuid = dish.uuid)
             }
+            EditButton(
+                onClick = { onEditClick(dish.uuid) },
+                dishUuid = dish.uuid,
+                modifier = Modifier.align(Alignment.BottomEnd)
+            )
         }
 
         Box(

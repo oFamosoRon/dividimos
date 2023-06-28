@@ -46,6 +46,16 @@ fun ActionMenu(
 //                text = { Text(text = "Sobre nos") }
 //            )
 
+//            DropdownMenuItem(
+//                onClick = { /* TODO */ },
+//                text = { Text(text = "Taxa de serviço") }
+//            )
+
+//            DropdownMenuItem(
+//                onClick = { /* TODO */ },
+//                text = { Text(text = "Courvert Artistico") }
+//            )
+
             DropdownMenuItem(
                 onClick = {
                     onOptionOneClick()

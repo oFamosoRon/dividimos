@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,16 +39,16 @@ fun BoxScope.GuestsContainer(
 @Composable
 fun GuestCard(guest: Guest, onClick: (String) -> Unit) {
     DragTarget(dataToDrop = guest, modifier = Modifier) {
-        Card(shape = MaterialTheme.shapes.medium,
+        Card(shape = RoundedCornerShape(5.dp),
             modifier = Modifier.clickable { onClick(guest.uuid) }) {
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .background(color = MaterialTheme.colorScheme.secondary)
+                    .background(color = MaterialTheme.colorScheme.secondaryContainer)
                     .padding(16.dp)
             ) {
-                Text(text = guest.name, color = MaterialTheme.colorScheme.surface)
+                Text(text = guest.name, color = MaterialTheme.colorScheme.onSecondaryContainer)
             }
         }
     }
