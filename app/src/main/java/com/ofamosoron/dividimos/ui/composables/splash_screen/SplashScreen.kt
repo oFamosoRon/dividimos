@@ -24,7 +24,11 @@ fun SplashScreen(
 
     if (state.value.isLoaded) {
         viewModel.navigationEnd()
-        navController.navigate(Route.HomeScreen.url)
+        navController.navigate(Route.HomeScreen.url) {
+            popUpTo(Route.SplashScreen.url) {
+                inclusive = true
+            }
+        }
     }
 
     Box(
