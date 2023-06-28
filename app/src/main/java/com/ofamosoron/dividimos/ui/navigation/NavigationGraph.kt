@@ -6,6 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ofamosoron.dividimos.ui.composables.home.Home
 import com.ofamosoron.dividimos.ui.composables.splash_screen.SplashScreen
+import com.ofamosoron.dividimos.ui.composables.tutorial.Tutorial
+import com.ofamosoron.dividimos.ui.composables.tutorial.TutorialPageOne
+import com.ofamosoron.dividimos.ui.composables.tutorial.TutorialPageThree
+import com.ofamosoron.dividimos.ui.composables.tutorial.TutorialPageTwo
 
 @Composable
 fun NavigationGraph(
@@ -18,6 +22,16 @@ fun NavigationGraph(
 
         composable(route = Route.HomeScreen.url) {
             Home(navController = navController)
+        }
+
+        composable(route = Route.TutorialScreen.url) {
+            Tutorial(
+                navController = navController,
+                list = listOf(
+                    { TutorialPageOne() },
+                    { TutorialPageTwo() },
+                    { TutorialPageThree(navController = navController) }
+                ))
         }
     }
 }

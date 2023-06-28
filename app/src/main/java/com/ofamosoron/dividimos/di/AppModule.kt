@@ -1,6 +1,7 @@
 package com.ofamosoron.dividimos.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.ofamosoron.dividimos.data.database.DividimosDao
 import com.ofamosoron.dividimos.data.database.SplitzDatabase
@@ -11,6 +12,7 @@ import com.ofamosoron.dividimos.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -80,6 +82,10 @@ object AppModule {
     @Provides
     fun provideClearDatabaseUseCase(localDatabaseRepository: LocalDatabaseRepository): ClearDatabaseUseCase =
         ClearDatabaseUseCaseImpl(localDatabaseRepository = localDatabaseRepository)
+
+    @Provides
+    fun provideSharedPreferencesUseCase(@ApplicationContext context: Context): SharedPreferencesUseCase =
+        SharedPreferencesUseCaseImpl(context = context)
 
     @Provides
     @Singleton

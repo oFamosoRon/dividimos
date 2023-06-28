@@ -22,9 +22,15 @@ fun SplashScreen(
 ) {
     val state = viewModel.splashScreenState.collectAsState()
 
+    val route = if (state.value.showTutorial) {
+        Route.HomeScreen.url
+    } else {
+        Route.TutorialScreen.url
+    }
+
     if (state.value.isLoaded) {
         viewModel.navigationEnd()
-        navController.navigate(Route.HomeScreen.url) {
+        navController.navigate(route) {
             popUpTo(Route.SplashScreen.url) {
                 inclusive = true
             }
