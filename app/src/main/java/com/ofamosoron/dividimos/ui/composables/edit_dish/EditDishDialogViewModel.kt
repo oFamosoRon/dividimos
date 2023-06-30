@@ -2,10 +2,9 @@ package com.ofamosoron.dividimos.ui.composables.edit_dish
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ofamosoron.dividimos.domain.usecase.GetDishByIdUseCase
-import com.ofamosoron.dividimos.domain.usecase.GetGuestByIdUseCase
-import com.ofamosoron.dividimos.domain.usecase.UpdateGuestUseCase
-import com.ofamosoron.dividimos.domain.usecase.UpdateStoredDishUseCase
+import com.ofamosoron.dividimos.domain.models.Dish
+import com.ofamosoron.dividimos.domain.usecase.*
+import com.ofamosoron.dividimos.util.formatMoney
 import com.ofamosoron.dividimos.util.toMoney
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,9 +17,11 @@ import javax.inject.Inject
 @HiltViewModel
 class EditDishDialogViewModel @Inject constructor(
     private val getDishByIdUseCase: GetDishByIdUseCase,
+    private val updateGuestUseCase: UpdateGuestUseCase,
     private val getGuestByIdUseCase: GetGuestByIdUseCase,
     private val updateStoredDishUseCase: UpdateStoredDishUseCase,
-    private val updateGuestUseCase: UpdateGuestUseCase
+    private val updateStoredCheckUseCase: UpdateStoredCheckUseCase,
+    private val getStoredCheckByIdUseCase: GetStoredCheckByIdUseCase,
 ) : ViewModel(),
     GetDishByIdUseCase by getDishByIdUseCase {
 
@@ -45,6 +46,7 @@ class EditDishDialogViewModel @Inject constructor(
 
     fun saveChanges() = viewModelScope.launch {
         updateStoredDishUseCase(dish = _state.value.dish)
+        updateStoredCheck(dish = _state.value.dish)
         _state.value.removedGuests.map {
             updateGuestUseCase(guest = it)
         }
@@ -76,6 +78,23 @@ class EditDishDialogViewModel @Inject constructor(
                     guests = updatedGuestsList,
                     removedGuests = removeGuestsList
                 )
+            }
+        }
+    }
+
+    private suspend fun updateStoredCheck(dish: Dish) {
+
+        getStoredCheckByIdUseCase(listOf(dish.checkId)).collect { check ->
+            val updatedCheck = check.firstNotNullOfOrNull {
+                it?.copy(
+                    total = ((dish.price.cents * dish.qnt) / dish.guests.size.toFloat())
+                        .formatMoney()
+                        .toMoney(),
+                )
+            }
+
+            updatedCheck?.let {
+                updateStoredCheckUseCase(it)
             }
         }
     }
