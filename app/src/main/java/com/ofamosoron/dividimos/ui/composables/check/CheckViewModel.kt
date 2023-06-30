@@ -32,11 +32,13 @@ class CheckViewModel @Inject constructor(
                 }
                 _checkState.value = _checkState.value.copy(guest = updatedGuest)
             }
+
             val checkIds = if(guests.filterNotNull().isEmpty()) {
                 emptyList<String>()
             } else {
                 guests.first()?.checkIds ?: emptyList()
             }
+
             getStoredCheckByIdUseCase(checkIds = checkIds)
         }.collectLatest { checks ->
             _checkState.value = _checkState.value.copy(checks = checks.filterNotNull())
