@@ -1,6 +1,7 @@
 package com.ofamosoron.dividimos.ui.composables.tutorial
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,8 +26,16 @@ fun TutorialPageThree(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
     ) {
-        Column {
-            Text(text = "Page 3")
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Pronto! Comece a...",
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.headlineSmall,
+            )
+
             Button(onClick = {
                 viewModel.onFinishTutorial()
                 navController.navigate(Route.HomeScreen.url) {
@@ -35,7 +44,7 @@ fun TutorialPageThree(
                     }
                 }
             }) {
-                Text(text = "continuar")
+                Text(text = "Dividir", style = MaterialTheme.typography.headlineMedium)
             }
         }
     }
