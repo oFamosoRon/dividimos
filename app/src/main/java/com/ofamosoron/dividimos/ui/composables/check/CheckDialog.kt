@@ -26,6 +26,7 @@ import com.ofamosoron.dividimos.util.formatMoney
 
 @Composable
 fun CheckDialog(
+    size: Int = 500,
     guestId: String,
     onDismiss: () -> Unit,
     viewModel: CheckViewModel = hiltViewModel(),
@@ -42,7 +43,7 @@ fun CheckDialog(
             modifier = Modifier
                 .clip(MaterialTheme.shapes.medium)
                 .background(MaterialTheme.colorScheme.surface)
-                .size(500.dp),
+                .size(size.dp),
         ) {
             IconButton(
                 onClick = onDismiss,
