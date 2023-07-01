@@ -168,6 +168,7 @@ fun TutorialPageTwo() {
                 Icon(
                     painterResource(id = R.drawable.ic_pointing_finger),
                     contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
                         .size(55.dp)
                         .graphicsLayer {
