@@ -1,14 +1,12 @@
 package com.ofamosoron.dividimos.ui.composables.home
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,8 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.domain.models.Dish
 import com.ofamosoron.dividimos.domain.models.DishToGuests
 import com.ofamosoron.dividimos.domain.models.Guest
@@ -35,9 +35,10 @@ import kotlinx.datetime.Clock
 fun BoxScope.DishesContainer(
     guests: List<DishToGuests>,
     dishes: List<Dish>,
-    onClick: (Int) -> Unit,
+    onIncreaseClick: (String) -> Unit,
+    onDecreaseClick: (String) -> Unit,
     onDrop: (guestUuid: String, dishUuid: String) -> Unit,
-    onLongPress: (dishUuid: String) -> Unit
+    onEditClick: (dishUuid: String) -> Unit
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -53,8 +54,9 @@ fun BoxScope.DishesContainer(
                 onDrop = { guestUuid: String, dishUuid: String ->
                     onDrop(guestUuid, dishUuid)
                 },
-                onClick = { onClick(dish.id) },
-                onEditClick = { onLongPress(dish.uuid) },
+                onIncreaseClick = { onIncreaseClick(dish.uuid) },
+                onDecreaseClick = { onDecreaseClick(dish.uuid) },
+                onEditClick = { onEditClick(dish.uuid) },
                 guests = guests.find { it.dishUuid == dish.uuid }?.guests ?: emptyList()
             )
         }
@@ -66,7 +68,8 @@ fun BoxScope.DishesContainer(
 fun DishCard(
     guests: List<Guest>,
     dish: Dish,
-    onClick: (Int) -> Unit,
+    onIncreaseClick: (String) -> Unit,
+    onDecreaseClick: (String) -> Unit,
     onDrop: (guestUuid: String, dishUuid: String) -> Unit,
     onEditClick: (dishUui: String) -> Unit
 ) {
@@ -114,7 +117,6 @@ fun DishCard(
                 .height(180.dp)
                 .clip(RoundedCornerShape(5.dp))
                 .background(bgColor)
-                .clickable { onClick(dish.id) }
         ) {
             Column {
                 Text(
@@ -164,14 +166,33 @@ fun DishCard(
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(top = 4.dp, end = 4.dp)
-                .clickable { onEditClick(dish.uuid) }
+                .padding(top = 4.dp, end = 6.dp)
         ) {
-            CounterTag(
-                color = MaterialTheme.colorScheme.secondary,
-                textColor = MaterialTheme.colorScheme.surface,
-                count = dish.qnt,
-            )
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_increase),
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clickable { onIncreaseClick(dish.uuid) }
+                )
+                CounterTag(
+                    color = MaterialTheme.colorScheme.secondary,
+                    textColor = MaterialTheme.colorScheme.surface,
+                    count = dish.qnt,
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_decrease),
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clickable { onDecreaseClick(dish.uuid) }
+                )
+            }
+
         }
     }
 }
@@ -191,12 +212,13 @@ fun previewDishCard() {
                 createdAt = Clock.System.now(),
                 checkId = ""
             ),
-            onClick = {},
+            onIncreaseClick = {},
             onDrop = { guestUuid: String, dishUuid: String ->
 
             },
             onEditClick = {},
-            guests = listOf(Guest(name = "Roney"), Guest(name = "Bia"), Guest(name = "Andre"))
+            guests = listOf(Guest(name = "Roney"), Guest(name = "Bia"), Guest(name = "Andre")),
+            onDecreaseClick = {}
         )
     }
 }
