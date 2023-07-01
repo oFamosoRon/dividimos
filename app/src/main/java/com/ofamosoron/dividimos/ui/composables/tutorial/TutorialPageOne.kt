@@ -68,9 +68,11 @@ fun TutorialPageOne() {
             DishCard(
                 guests = emptyList(),
                 dish = Dish(name = "Fritas", price = Money(cents = 2000), qnt = 1),
-                onClick = {},
+                onIncreaseClick = {},
+                onDecreaseClick = {},
                 onDrop = { _, _ -> },
-                onEditClick = {})
+                onEditClick = { _ ->}
+            )
         }
 
         Box(

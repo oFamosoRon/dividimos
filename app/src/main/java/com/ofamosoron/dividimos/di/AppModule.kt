@@ -5,8 +5,10 @@ import android.content.Context
 import androidx.room.Room
 import com.ofamosoron.dividimos.data.database.DividimosDao
 import com.ofamosoron.dividimos.data.database.SplitzDatabase
+import com.ofamosoron.dividimos.data.delegate.DialogDelegateImpl
 import com.ofamosoron.dividimos.data.repository.LocalDatabaseRepositoryImpl
 import com.ofamosoron.dividimos.data.usecase.*
+import com.ofamosoron.dividimos.domain.delegate.DialogDelegate
 import com.ofamosoron.dividimos.domain.repository.LocalDatabaseRepository
 import com.ofamosoron.dividimos.domain.usecase.*
 import dagger.Module
@@ -82,6 +84,9 @@ object AppModule {
     @Provides
     fun provideClearDatabaseUseCase(localDatabaseRepository: LocalDatabaseRepository): ClearDatabaseUseCase =
         ClearDatabaseUseCaseImpl(localDatabaseRepository = localDatabaseRepository)
+
+    @Provides
+    fun provideDialogDelegate(): DialogDelegate = DialogDelegateImpl()
 
     @Provides
     fun provideSharedPreferencesUseCase(@ApplicationContext context: Context): SharedPreferencesUseCase =

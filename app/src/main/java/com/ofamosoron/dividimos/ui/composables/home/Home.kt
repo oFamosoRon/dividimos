@@ -14,9 +14,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ofamosoron.dividimos.R
+import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.ui.MainViewModel
 import com.ofamosoron.dividimos.ui.composables.action_menu.CloseTableDialog
 import com.ofamosoron.dividimos.ui.composables.check.CheckDialog
+import com.ofamosoron.dividimos.ui.composables.dialog.DialogType
 import com.ofamosoron.dividimos.ui.composables.dishes_dialog.DishDialog
 import com.ofamosoron.dividimos.ui.composables.edit_dish.EditDishDialog
 import com.ofamosoron.dividimos.ui.composables.guest_dialog.GuestDialog
@@ -36,43 +38,21 @@ fun Home(
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.surface)
     ) {
-        val dialogType = state.value.openDialog
-        if (dialogType.isOpen) {
-            when (dialogType) {
-                is MainViewModel.DialogType.DishDialog -> {
-                    DishDialog(onDismiss = { viewModel.dismissDialog() })
-                }
-                is MainViewModel.DialogType.GuestDialog -> {
-                    GuestDialog(
-                        onDismiss = { viewModel.dismissDialog() },
-                        addNewGuest = { guest ->
-                            viewModel.addNewGuest(guest)
-                        }
-                    )
-                }
-                is MainViewModel.DialogType.CheckDialog -> CheckDialog(
-                    onDismiss = { viewModel.dismissDialog() },
-                    guestId = (dialogType as? MainViewModel.DialogType.CheckDialog)?.guestId ?: ""
-                )
-                is MainViewModel.DialogType.EditDishDialog -> EditDishDialog(
-                    onDismiss = { viewModel.dismissDialog() },
-                    dishUui = (dialogType as? MainViewModel.DialogType.EditDishDialog)?.dishUuid
-                        ?: ""
-                )
-                is MainViewModel.DialogType.ClearTableDialog -> CloseTableDialog(
-                    onDismiss = { viewModel.dismissDialog() },
-                    onProceed = {
-                        viewModel.dismissDialog()
-                        viewModel.clearDatabase()
-                    }
-                )
+        ChooseDialog(
+            dialogType = state.value.openDialog,
+            action = {
+                viewModel.onEvent(it)
+            },
+            addNewGuest = {
+                viewModel.addNewGuest(it)
             }
-        }
+        )
+
         Column(modifier = Modifier.fillMaxSize()) {
             Header(
-                addNewDish = { viewModel.openDialog(MainViewModel.DialogType.DishDialog()) },
-                addNewGuest = { viewModel.openDialog(MainViewModel.DialogType.GuestDialog()) },
-                actionMenuOptionOneClick = { viewModel.openDialog(MainViewModel.DialogType.ClearTableDialog()) },
+                addNewDish = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.DishDialog())) },
+                addNewGuest = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.GuestDialog())) },
+                actionMenuOptionOneClick = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.ClearTableDialog())) },
                 actionMenuOptionTwoClick = { },
                 total = state.value.dishes.sumOf { it.price.cents * it.qnt }
             )
@@ -91,13 +71,31 @@ fun Home(
                         DishesContainer(
                             dishes = state.value.dishes,
                             guests = state.value.dishesToGuests,
-                            onClick = { dishId ->
-                                viewModel.dishPlusOne(dishId)
+                            onIncreaseClick = { dishUuid ->
+                                viewModel.onEvent(
+                                    HomeScreenEvent.IncreaseDishQuantity(
+                                        dishUuid = dishUuid
+                                    )
+                                )
+                            },
+                            onDecreaseClick = { dishUuid ->
+                                viewModel.onEvent(
+                                    HomeScreenEvent.DecreaseDishQuantity(
+                                        dishUuid = dishUuid
+                                    )
+                                )
                             }, onDrop = { guestUuid, dishUuid ->
-                                viewModel.addGuestToDish(guestUuid = guestUuid, dishUuid = dishUuid)
-                            }, onLongPress = { dishUuid: String ->
-                                viewModel.openDialog(
-                                    MainViewModel.DialogType.EditDishDialog(dishUuid = dishUuid)
+                                viewModel.onEvent(
+                                    HomeScreenEvent.OnDrop(
+                                        guestUuid = guestUuid,
+                                        dishUuid = dishUuid
+                                    )
+                                )
+                            }, onEditClick = { dishUuid: String ->
+                                viewModel.onEvent(
+                                    HomeScreenEvent.OpenDialog(
+                                        dialogType = DialogType.EditDishDialog(dishUuid = dishUuid)
+                                    )
                                 )
                             })
                     }
@@ -117,13 +115,57 @@ fun Home(
                     GuestsContainer(
                         guests = state.value.guests,
                         cardClick = {
-                            viewModel.openDialog(
-                                MainViewModel.DialogType.CheckDialog(guestId = it)
+                            viewModel.onEvent(
+                                HomeScreenEvent.OpenDialog(
+                                    dialogType = DialogType.CheckDialog(guestId = it)
+                                )
                             )
                         }
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun ChooseDialog(
+    dialogType: DialogType,
+    action: (dialogType: HomeScreenEvent) -> Unit,
+    //TODO temporary parameter
+    addNewGuest: (guest: Guest) -> Unit
+) {
+    if (dialogType.isOpen) {
+        when (dialogType) {
+            is DialogType.DishDialog -> {
+                DishDialog(onDismiss = {
+                    action(HomeScreenEvent.CloseDialog(dialogType = dialogType))
+                })
+            }
+            is DialogType.GuestDialog -> {
+                GuestDialog(
+                    onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
+                    addNewGuest = { guest ->
+                        addNewGuest(guest)
+                    }
+                )
+            }
+            is DialogType.CheckDialog -> CheckDialog(
+                onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
+                guestId = (dialogType as? DialogType.CheckDialog)?.guestId ?: ""
+            )
+            is DialogType.EditDishDialog -> EditDishDialog(
+                onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
+                dishUui = (dialogType as? DialogType.EditDishDialog)?.dishUuid
+                    ?: ""
+            )
+            is DialogType.ClearTableDialog -> CloseTableDialog(
+                onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
+                onProceed = {
+                    action(HomeScreenEvent.CloseDialog(dialogType = dialogType))
+                    action(HomeScreenEvent.ClearDatabase)
+                }
+            )
         }
     }
 }

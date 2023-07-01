@@ -2,10 +2,12 @@ package com.ofamosoron.dividimos.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ofamosoron.dividimos.domain.delegate.DialogDelegate
 import com.ofamosoron.dividimos.domain.models.Dish
 import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.domain.usecase.*
-import com.ofamosoron.dividimos.ui.composables.action_menu.CloseTableDialog
+import com.ofamosoron.dividimos.ui.composables.dialog.DialogType
+import com.ofamosoron.dividimos.ui.composables.home.HomeScreenEvent
 import com.ofamosoron.dividimos.util.dishToGuests
 import com.ofamosoron.dividimos.util.formatMoney
 import com.ofamosoron.dividimos.util.toMoney
@@ -23,15 +25,11 @@ class MainViewModel @Inject constructor(
     private val getAllGuestsUseCase: GetAllGuestsUseCase,
     private val clearDatabaseUseCase: ClearDatabaseUseCase,
     private val updateStoredGuestUseCase: UpdateGuestUseCase,
-    private val calculateCheckUseCase: CalculateCheckUseCase,
     private val updateStoredDishUseCase: UpdateStoredDishUseCase,
     private val updateStoredCheckUseCase: UpdateStoredCheckUseCase,
     private val getStoredCheckByIdUseCase: GetStoredCheckByIdUseCase,
-) : ViewModel(),
-    StoreGuestUseCase by storeGuestUseCase,
-    CalculateCheckUseCase by calculateCheckUseCase,
-    UpdateStoredDishUseCase by updateStoredDishUseCase,
-    GetStoredCheckByIdUseCase by getStoredCheckByIdUseCase {
+    private val dialogDelegate: DialogDelegate,
+) : ViewModel() {
 
     private val _mainState = MutableStateFlow(MainState())
     val mainState = _mainState.asStateFlow()
@@ -46,47 +44,60 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun dismissDialog() = viewModelScope.launch {
-        when (_mainState.value.openDialog) {
-            is DialogType.DishDialog -> _mainState.value =
-                _mainState.value.copy(openDialog = DialogType.DishDialog(false))
-
-            is DialogType.GuestDialog -> _mainState.value =
-                _mainState.value.copy(openDialog = DialogType.GuestDialog(false))
-
-            is DialogType.CheckDialog -> _mainState.value =
-                _mainState.value.copy(openDialog = DialogType.CheckDialog(false, ""))
-
-            is DialogType.EditDishDialog -> _mainState.value =
-                _mainState.value.copy(openDialog = DialogType.EditDishDialog(false, ""))
-
-            is DialogType.ClearTableDialog -> _mainState.value =
-                _mainState.value.copy(openDialog = DialogType.ClearTableDialog(false))
+    fun onEvent(event: HomeScreenEvent) {
+        when (event) {
+            is HomeScreenEvent.CloseDialog -> handleCloseDialogEvent(event.dialogType)
+            is HomeScreenEvent.OpenDialog -> handleOpenDialogEvent(event.dialogType)
+            is HomeScreenEvent.ClearDatabase -> handleClearDatabaseEvent()
+            is HomeScreenEvent.OnDrop -> handleOnDropEvent(
+                guestUuid = event.guestUuid,
+                dishUuid = event.dishUuid
+            )
+            is HomeScreenEvent.DecreaseDishQuantity -> handleDishQuantity(
+                dishUuid = event.dishUuid,
+                increase = false
+            )
+            is HomeScreenEvent.IncreaseDishQuantity -> handleDishQuantity(
+                dishUuid = event.dishUuid,
+                increase = true
+            )
         }
+    }
+
+    private fun handleDishQuantity(dishUuid: String, increase: Boolean) = viewModelScope.launch {
+        val dishToBeUpdated = _mainState.value.dishes.find { it.uuid == dishUuid }
+        dishToBeUpdated?.let {
+            val currentQnt = it.qnt
+            val updatedDish = when {
+                increase -> {
+                    it.copy(qnt = it.qnt + 1)
+                }
+                !increase && (currentQnt > 0)  -> {
+                    it.copy(qnt = it.qnt - 1)
+                }
+                else -> it.copy(qnt = 0)
+            }
+
+            updateStoredDishUseCase(dish = updatedDish)
+            updateStoredCheck(updatedDish)
+            updateState()
+        }
+    }
+
+    private fun handleCloseDialogEvent(type: DialogType) = viewModelScope.launch {
+        val dialogState = dialogDelegate.closeDialog(type)
+        _mainState.value = _mainState.value.copy(openDialog = dialogState)
+
         //todo think of a better way
         updateState()
     }
 
-    fun openDialog(type: DialogType) {
-        when (type) {
-            is DialogType.DishDialog -> _mainState.value =
-                _mainState.value.copy(openDialog = DialogType.DishDialog(true))
-
-            is DialogType.GuestDialog -> _mainState.value =
-                _mainState.value.copy(openDialog = DialogType.GuestDialog(true))
-
-            is DialogType.CheckDialog -> _mainState.value =
-                _mainState.value.copy(openDialog = type.copy(isOpen = true))
-
-            is DialogType.EditDishDialog -> _mainState.value =
-                _mainState.value.copy(openDialog = type.copy(isOpen = true))
-
-            is DialogType.ClearTableDialog -> _mainState.value =
-                _mainState.value.copy(openDialog = type.copy(isOpen = true))
-        }
+    private fun handleOpenDialogEvent(type: DialogType) {
+        _mainState.value =
+            _mainState.value.copy(openDialog = dialogDelegate.openDialog(dialogType = type))
     }
 
-    fun addGuestToDish(guestUuid: String, dishUuid: String) = viewModelScope.launch {
+    private fun handleOnDropEvent(guestUuid: String, dishUuid: String) = viewModelScope.launch {
         combine(
             getDishByIdUseCase(uuid = dishUuid),
             getGuestByIdUseCase(guestIds = listOf(guestUuid))
@@ -113,19 +124,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun dishPlusOne(dishId: Int) = viewModelScope.launch {
-        val dishToBeUpdated = _mainState.value.dishes.find { it.id == dishId }
-
-        dishToBeUpdated?.let {
-            val updatedDish = it.copy(qnt = it.qnt + 1)
-
-            updateStoredDishUseCase(dish = updatedDish)
-            updateStoredCheck(updatedDish)
-            updateState()
-        }
-    }
-
-    fun clearDatabase() = viewModelScope.launch {
+    private fun handleClearDatabaseEvent() = viewModelScope.launch {
         clearDatabaseUseCase()
         updateState()
     }
@@ -157,18 +156,5 @@ class MainViewModel @Inject constructor(
                 dishesToGuests = dishes.map { dishToGuests(it, guests) }
             )
         }
-    }
-
-    sealed class DialogType(open val isOpen: Boolean) {
-        data class DishDialog(override val isOpen: Boolean = false) : DialogType(isOpen = isOpen)
-        data class GuestDialog(override val isOpen: Boolean = false) : DialogType(isOpen = isOpen)
-        data class ClearTableDialog(override val isOpen: Boolean = false) :
-            DialogType(isOpen = isOpen)
-
-        data class CheckDialog(override val isOpen: Boolean = false, val guestId: String) :
-            DialogType(isOpen = isOpen)
-
-        data class EditDishDialog(override val isOpen: Boolean = false, val dishUuid: String) :
-            DialogType(isOpen = isOpen)
     }
 }
