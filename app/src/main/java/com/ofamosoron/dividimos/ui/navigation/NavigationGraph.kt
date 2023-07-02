@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.ofamosoron.dividimos.ui.composables.guest_dialog.NewGuestScreen
 import com.ofamosoron.dividimos.ui.composables.home.Home
 import com.ofamosoron.dividimos.ui.composables.splash_screen.SplashScreen
 import com.ofamosoron.dividimos.ui.composables.tutorial.Tutorial
@@ -32,6 +33,10 @@ fun NavigationGraph(
                     { TutorialPageTwo() },
                     { TutorialPageThree(navController = navController) }
                 ))
+        }
+
+        composable(route = Route.NewGuestScreen.url) {
+            NewGuestScreen(navController = navController)
         }
     }
 }

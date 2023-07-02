@@ -7,30 +7,32 @@ import com.ofamosoron.dividimos.domain.usecase.StoreGuestUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class GuestDialogViewModel @Inject constructor(
+class NewGuestViewModel @Inject constructor(
     private val storeGuestUseCase: StoreGuestUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(GuestDialogState())
+    private val _state = MutableStateFlow(NewGuestState())
     val state = _state.asStateFlow()
 
-    fun onEvent(event: GuestDialogEvent) {
+    fun onEvent(event: NewGuestScreenEvent) {
         when (event) {
-            is GuestDialogEvent.AddNewGuest -> handleAddNewGuestEvent()
-            is GuestDialogEvent.OnNameChanged -> handleOnNameChanged(event.name)
+            is NewGuestScreenEvent.AddNewGuest -> handleAddNewGuestEvent()
+            is NewGuestScreenEvent.OnNameChanged -> handleOnNameChanged(event.name)
+            is NewGuestScreenEvent.ClearState -> handClearStateEvent()
         }
     }
 
     private fun handleAddNewGuestEvent() = viewModelScope.launch {
-        storeGuestUseCase(guest = _state.value.guest).collect()
+        storeGuestUseCase(guest = _state.value.guest).collectLatest { isStored ->
+            _state.value = _state.value.copy(isCreated = isStored)
+        }
     }
-
 
     private fun handleOnNameChanged(name: String) {
         val newGuest = if (_state.value.guest.uuid.isBlank()) {
@@ -39,5 +41,9 @@ class GuestDialogViewModel @Inject constructor(
             _state.value.guest.copy(name = name)
         }
         _state.value = _state.value.copy(guest = newGuest)
+    }
+
+    private fun handClearStateEvent() {
+        _state.value = NewGuestState()
     }
 }

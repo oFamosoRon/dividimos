@@ -20,9 +20,9 @@ import com.ofamosoron.dividimos.ui.composables.check.CheckDialog
 import com.ofamosoron.dividimos.ui.composables.dialog.DialogType
 import com.ofamosoron.dividimos.ui.composables.dishes_dialog.DishDialog
 import com.ofamosoron.dividimos.ui.composables.edit_dish.EditDishDialog
-import com.ofamosoron.dividimos.ui.composables.guest_dialog.GuestDialog
 import com.ofamosoron.dividimos.ui.composables.header.Header
 import com.ofamosoron.dividimos.ui.drag_and_drop.LongPressDraggable
+import com.ofamosoron.dividimos.ui.navigation.Route
 import com.ofamosoron.dividimos.ui.util.EmptyScreen
 
 @Composable
@@ -45,7 +45,7 @@ fun Home(
         Column(modifier = Modifier.fillMaxSize()) {
             Header(
                 addNewDish = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.DishDialog())) },
-                addNewGuest = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.GuestDialog())) },
+                addNewGuest = { navController.navigate(Route.NewGuestScreen.url) },
                 actionMenuOptionOneClick = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.ClearTableDialog())) },
                 actionMenuOptionTwoClick = { /* TODO */},
                 total = state.value.dishes.sumOf { it.price.cents * it.qnt }
@@ -135,7 +135,7 @@ fun ChooseDialog(
                 })
             }
             is DialogType.GuestDialog -> {
-                GuestDialog(onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) })
+
             }
             is DialogType.CheckDialog -> CheckDialog(
                 onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
