@@ -85,11 +85,7 @@ fun Home(
                                     )
                                 )
                             }, onEditClick = { dishUuid: String ->
-                                viewModel.onEvent(
-                                    HomeScreenEvent.OpenDialog(
-                                        dialogType = DialogType.EditDishDialog(dishUuid = dishUuid)
-                                    )
-                                )
+                                navController.navigate(Route.EditDishScreen.withArgs(dishUuid))
                             })
                     }
                 }
@@ -138,11 +134,9 @@ fun ChooseDialog(
                 onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
                 guestId = (dialogType as? DialogType.CheckDialog)?.guestId ?: ""
             )
-            is DialogType.EditDishDialog -> EditDishDialog(
-                onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
-                dishUui = (dialogType as? DialogType.EditDishDialog)?.dishUuid
-                    ?: ""
-            )
+            is DialogType.EditDishDialog -> {
+
+            }
             is DialogType.ClearTableDialog -> CloseTableDialog(
                 onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
                 onProceed = {

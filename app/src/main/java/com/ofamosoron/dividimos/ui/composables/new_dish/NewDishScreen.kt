@@ -44,9 +44,8 @@ fun NewDishScreen(
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .clip(MaterialTheme.shapes.medium)
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
-            .size(380.dp),
     ) {
         Column(
             modifier = Modifier
