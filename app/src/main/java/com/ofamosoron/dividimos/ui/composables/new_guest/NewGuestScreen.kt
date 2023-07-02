@@ -1,4 +1,4 @@
-package com.ofamosoron.dividimos.ui.composables.guest_dialog
+package com.ofamosoron.dividimos.ui.composables.new_guest
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

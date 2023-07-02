@@ -1,4 +1,4 @@
-package com.ofamosoron.dividimos.ui.composables.dishes_dialog
+package com.ofamosoron.dividimos.ui.composables.new_dish
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,17 +16,17 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class DishDialogViewModel @Inject constructor(
+class NewDishViewModel @Inject constructor(
     private val storeDishUseCase: StoreDishUseCase,
     private val storeCheckUseCase: StoreCheckUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(DishDialogState())
+    private val _state = MutableStateFlow(NewDishState())
     val state = _state.asStateFlow()
 
-    fun onEvent(event: FormValidationEvent) {
+    fun onEvent(event: NewDishScreenEvent) {
         when (event) {
-            is FormValidationEvent.NameChanged -> {
+            is NewDishScreenEvent.NameChanged -> {
                 if (event.name.isBlank()) {
                     _state.value = _state.value.copy(
                         dishName = event.name,
@@ -36,7 +36,7 @@ class DishDialogViewModel @Inject constructor(
                     _state.value = _state.value.copy(dishName = event.name, dishNameError = null)
                 }
             }
-            is FormValidationEvent.PriceChanged -> {
+            is NewDishScreenEvent.PriceChanged -> {
                 if (event.price.isBlank() || (event.price.isNotBlank() && event.price.toFloat() == 0F)) {
                     _state.value = _state.value.copy(
                         dishPrice = event.price,
@@ -46,10 +46,10 @@ class DishDialogViewModel @Inject constructor(
                     _state.value = _state.value.copy(dishPrice = event.price, dishPriceError = null)
                 }
             }
-            is FormValidationEvent.QuantityChanged -> {
+            is NewDishScreenEvent.QuantityChanged -> {
                 _state.value = _state.value.copy(dishQuantity = event.quantity)
             }
-            is FormValidationEvent.SubmitButtonClicked -> {
+            is NewDishScreenEvent.SubmitButtonClicked -> {
                 val hasError = when {
                     event.name.isBlank() -> {
                         _state.value = _state.value.copy(
@@ -94,14 +94,15 @@ class DishDialogViewModel @Inject constructor(
                         _state.value.dishPrice,
                         _state.value.dishQuantity
                     )
-                    _state.value = _state.value.copy(dismiss = true)
+                    _state.value = _state.value.copy(isCreated = true)
                 }
             }
+            is NewDishScreenEvent.ClearState -> handleClearStateEvent()
         }
     }
 
-    fun clearState() {
-        _state.value = DishDialogState()
+    private fun handleClearStateEvent() {
+        _state.value = NewDishState()
     }
 
     private fun addNewDishAndCheck(name: String, price: String, qnt: Int) = viewModelScope.launch {

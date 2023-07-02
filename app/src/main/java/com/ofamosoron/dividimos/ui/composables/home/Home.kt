@@ -18,7 +18,6 @@ import com.ofamosoron.dividimos.ui.MainViewModel
 import com.ofamosoron.dividimos.ui.composables.action_menu.CloseTableDialog
 import com.ofamosoron.dividimos.ui.composables.check.CheckDialog
 import com.ofamosoron.dividimos.ui.composables.dialog.DialogType
-import com.ofamosoron.dividimos.ui.composables.dishes_dialog.DishDialog
 import com.ofamosoron.dividimos.ui.composables.edit_dish.EditDishDialog
 import com.ofamosoron.dividimos.ui.composables.header.Header
 import com.ofamosoron.dividimos.ui.drag_and_drop.LongPressDraggable
@@ -44,7 +43,7 @@ fun Home(
 
         Column(modifier = Modifier.fillMaxSize()) {
             Header(
-                addNewDish = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.DishDialog())) },
+                addNewDish = { navController.navigate(Route.NewDishScreen.url) },
                 addNewGuest = { navController.navigate(Route.NewGuestScreen.url) },
                 actionMenuOptionOneClick = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.ClearTableDialog())) },
                 actionMenuOptionTwoClick = { /* TODO */},
@@ -130,9 +129,7 @@ fun ChooseDialog(
     if (dialogType.isOpen) {
         when (dialogType) {
             is DialogType.DishDialog -> {
-                DishDialog(onDismiss = {
-                    action(HomeScreenEvent.CloseDialog(dialogType = dialogType))
-                })
+
             }
             is DialogType.GuestDialog -> {
 
