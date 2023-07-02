@@ -18,7 +18,6 @@ import com.ofamosoron.dividimos.ui.MainViewModel
 import com.ofamosoron.dividimos.ui.composables.action_menu.CloseTableDialog
 import com.ofamosoron.dividimos.ui.composables.check.CheckDialog
 import com.ofamosoron.dividimos.ui.composables.dialog.DialogType
-import com.ofamosoron.dividimos.ui.composables.edit_dish.EditDishDialog
 import com.ofamosoron.dividimos.ui.composables.header.Header
 import com.ofamosoron.dividimos.ui.drag_and_drop.LongPressDraggable
 import com.ofamosoron.dividimos.ui.navigation.Route

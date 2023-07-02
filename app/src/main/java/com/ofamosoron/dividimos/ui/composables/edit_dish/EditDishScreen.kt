@@ -38,8 +38,8 @@ fun EditDishDialog(
         ViewModelFactoryProvider::class.java
     ).editDishViewModelFactory()
 
-    val viewModel: EditDishDialogViewModel = viewModel(
-        factory = EditDishDialogViewModel.provideEditDishViewModelFactory(
+    val viewModel: EditDishViewModel = viewModel(
+        factory = EditDishViewModel.provideEditDishViewModelFactory(
             factory,
             dishUui
         )

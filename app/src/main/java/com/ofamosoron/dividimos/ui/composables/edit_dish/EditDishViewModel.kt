@@ -15,7 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class EditDishDialogViewModel @AssistedInject constructor(
+class EditDishViewModel @AssistedInject constructor(
     @Assisted private val dishUuid: String,
     private val getDishByIdUseCase: GetDishByIdUseCase,
     private val getGuestByIdUseCase: GetGuestByIdUseCase,
@@ -115,7 +115,7 @@ class EditDishDialogViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(dishUuid: String): EditDishDialogViewModel
+        fun create(dishUuid: String): EditDishViewModel
     }
 
     companion object {
