@@ -5,7 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -13,18 +14,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ofamosoron.dividimos.R
-import com.ofamosoron.dividimos.domain.models.Guest
-import java.util.*
 
 // TODO make this file not a dialog
 // TODO create animation for when its entered
 @Composable
 fun GuestDialog(
     onDismiss: () -> Unit,
-    addNewGuest: (guest: Guest) -> Unit
+    viewModel: GuestDialogViewModel = hiltViewModel()
 ) {
-    var name by remember { mutableStateOf("") }
+    val state = viewModel.state.collectAsState()
 
     Dialog(
         onDismissRequest = { onDismiss },
@@ -45,8 +45,10 @@ fun GuestDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 OutlinedTextField(
-                    value = name,
-                    onValueChange = { name = it },
+                    value = state.value.guest.name,
+                    onValueChange = {
+                        viewModel.onEvent(GuestDialogEvent.OnNameChanged(name = it))
+                    },
                     placeholder = { Text(stringResource(id = R.string.guest_dialog_name_placeholder)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -58,10 +60,8 @@ fun GuestDialog(
                         .clip(MaterialTheme.shapes.medium)
                         .background(MaterialTheme.colorScheme.primary),
                     onClick = {
-                        createNewGuest(name = name)?.let {
-                            addNewGuest(it)
-                            onDismiss()
-                        }
+                        viewModel.onEvent(GuestDialogEvent.AddNewGuest)
+                        onDismiss()
                     }
                 ) {
                     Text(
@@ -79,12 +79,4 @@ fun GuestDialog(
             }
         }
     }
-}
-
-// TODO move this to viewModel
-private fun createNewGuest(name: String): Guest? {
-    if (name.isEmpty())
-        return null
-
-    return Guest(name = name, uuid = UUID.randomUUID().toString())
 }

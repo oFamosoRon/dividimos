@@ -19,9 +19,7 @@ import javax.inject.Inject
 class DishDialogViewModel @Inject constructor(
     private val storeDishUseCase: StoreDishUseCase,
     private val storeCheckUseCase: StoreCheckUseCase,
-) : ViewModel(),
-    StoreDishUseCase by storeDishUseCase,
-    StoreCheckUseCase by storeCheckUseCase {
+) : ViewModel() {
 
     private val _state = MutableStateFlow(DishDialogState())
     val state = _state.asStateFlow()

@@ -38,12 +38,6 @@ class MainViewModel @Inject constructor(
         updateState()
     }
 
-    fun addNewGuest(guest: Guest) = viewModelScope.launch {
-        storeGuestUseCase(guest).collectLatest { success ->
-            updateState()
-        }
-    }
-
     fun onEvent(event: HomeScreenEvent) {
         when (event) {
             is HomeScreenEvent.CloseDialog -> handleCloseDialogEvent(event.dialogType)

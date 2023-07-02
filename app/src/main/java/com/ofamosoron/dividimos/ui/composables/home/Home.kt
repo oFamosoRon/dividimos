@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ofamosoron.dividimos.R
-import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.ui.MainViewModel
 import com.ofamosoron.dividimos.ui.composables.action_menu.CloseTableDialog
 import com.ofamosoron.dividimos.ui.composables.check.CheckDialog
@@ -40,12 +39,7 @@ fun Home(
     ) {
         ChooseDialog(
             dialogType = state.value.openDialog,
-            action = {
-                viewModel.onEvent(it)
-            },
-            addNewGuest = {
-                viewModel.addNewGuest(it)
-            }
+            action = { viewModel.onEvent(it) }
         )
 
         Column(modifier = Modifier.fillMaxSize()) {
@@ -53,7 +47,7 @@ fun Home(
                 addNewDish = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.DishDialog())) },
                 addNewGuest = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.GuestDialog())) },
                 actionMenuOptionOneClick = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.ClearTableDialog())) },
-                actionMenuOptionTwoClick = { },
+                actionMenuOptionTwoClick = { /* TODO */},
                 total = state.value.dishes.sumOf { it.price.cents * it.qnt }
             )
 
@@ -132,8 +126,6 @@ fun Home(
 fun ChooseDialog(
     dialogType: DialogType,
     action: (dialogType: HomeScreenEvent) -> Unit,
-    //TODO temporary parameter
-    addNewGuest: (guest: Guest) -> Unit
 ) {
     if (dialogType.isOpen) {
         when (dialogType) {
@@ -143,12 +135,7 @@ fun ChooseDialog(
                 })
             }
             is DialogType.GuestDialog -> {
-                GuestDialog(
-                    onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
-                    addNewGuest = { guest ->
-                        addNewGuest(guest)
-                    }
-                )
+                GuestDialog(onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) })
             }
             is DialogType.CheckDialog -> CheckDialog(
                 onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
