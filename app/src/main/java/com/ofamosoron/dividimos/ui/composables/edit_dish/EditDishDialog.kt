@@ -66,7 +66,6 @@ fun EditDishDialog(
         ) {
             TextButton(onClick = {
                 viewModel.onEvent(EditEvent.SaveChanges)
-                viewModel.onEvent(EditEvent.Dismiss)
             }) {
                 Text(
                     text = "Salvar",
