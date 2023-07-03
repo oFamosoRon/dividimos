@@ -5,9 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.ofamosoron.dividimos.domain.delegate.DialogDelegate
 import com.ofamosoron.dividimos.domain.models.Check
 import com.ofamosoron.dividimos.domain.models.Dish
-import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.domain.usecase.*
-import com.ofamosoron.dividimos.ui.composables.dialog.DialogType
+import com.ofamosoron.dividimos.ui.composables.home.DialogType
 import com.ofamosoron.dividimos.ui.composables.home.HomeScreenEvent
 import com.ofamosoron.dividimos.util.dishToGuests
 import com.ofamosoron.dividimos.util.formatMoney
