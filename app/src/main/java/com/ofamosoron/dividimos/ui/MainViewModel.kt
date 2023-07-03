@@ -19,7 +19,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val storeGuestUseCase: StoreGuestUseCase,
     private val getDishByIdUseCase: GetDishByIdUseCase,
     private val getAllDishesUseCase: GetAllDishesUseCase,
     private val getGuestByIdUseCase: GetGuestByIdUseCase,
@@ -73,9 +72,11 @@ class MainViewModel @Inject constructor(
                 else -> it.copy(qnt = 0)
             }
 
-            updateStoredDishUseCase(dish = updatedDish)
-            updateStoredCheck(updatedDish)
-            updateState()
+            updateStoredDishUseCase(dish = updatedDish).flatMapLatest {
+                updateStoredCheck(updatedDish)
+            }.collectLatest {
+                updateState()
+            }
         }
     }
 
