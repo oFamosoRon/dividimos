@@ -1,11 +1,11 @@
 package com.ofamosoron.dividimos.ui.composables.new_guest
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -41,6 +41,22 @@ fun NewGuestScreen(
             .background(MaterialTheme.colorScheme.surface)
 
     ) {
+
+        Icon(
+            Icons.Default.Close,
+            contentDescription = "close",
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(8.dp)
+                .clickable {
+                    navController.navigate(Route.HomeScreen.url) {
+                        popUpTo(Route.NewGuestScreen.url) {
+                            this.inclusive = true
+                        }
+                    }
+                }
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()

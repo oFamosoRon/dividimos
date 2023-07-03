@@ -17,7 +17,6 @@ import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.ui.MainViewModel
 import com.ofamosoron.dividimos.ui.composables.action_menu.CloseTableDialog
 import com.ofamosoron.dividimos.ui.composables.check.CheckDialog
-import com.ofamosoron.dividimos.ui.composables.dialog.DialogType
 import com.ofamosoron.dividimos.ui.composables.header.Header
 import com.ofamosoron.dividimos.ui.drag_and_drop.LongPressDraggable
 import com.ofamosoron.dividimos.ui.navigation.Route
@@ -123,19 +122,10 @@ fun ChooseDialog(
 ) {
     if (dialogType.isOpen) {
         when (dialogType) {
-            is DialogType.DishDialog -> {
-
-            }
-            is DialogType.GuestDialog -> {
-
-            }
             is DialogType.CheckDialog -> CheckDialog(
                 onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
                 guestId = (dialogType as? DialogType.CheckDialog)?.guestId ?: ""
             )
-            is DialogType.EditDishDialog -> {
-
-            }
             is DialogType.ClearTableDialog -> CloseTableDialog(
                 onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
                 onProceed = {
