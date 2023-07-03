@@ -1,38 +1,39 @@
 package com.ofamosoron.dividimos.ui.composables.edit_dish
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.ofamosoron.dividimos.domain.models.Check
 import com.ofamosoron.dividimos.domain.models.Dish
 import com.ofamosoron.dividimos.domain.usecase.*
 import com.ofamosoron.dividimos.util.formatMoney
 import com.ofamosoron.dividimos.util.toMoney
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flatMapLatest
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class EditDishDialogViewModel @Inject constructor(
+class EditDishViewModel @AssistedInject constructor(
+    @Assisted private val dishUuid: String,
     private val getDishByIdUseCase: GetDishByIdUseCase,
-    private val updateGuestUseCase: UpdateGuestUseCase,
     private val getGuestByIdUseCase: GetGuestByIdUseCase,
     private val updateStoredDishUseCase: UpdateStoredDishUseCase,
     private val updateStoredCheckUseCase: UpdateStoredCheckUseCase,
     private val getStoredCheckByIdUseCase: GetStoredCheckByIdUseCase,
-) : ViewModel(),
-    GetDishByIdUseCase by getDishByIdUseCase {
+    private val removeGuestsFromDishUseCase: RemoveGuestsFromDishUseCase,
+) : ViewModel() {
 
     private val _state = MutableStateFlow(EditDishState())
     val state = _state.asStateFlow()
 
-    fun clearState() {
-        _state.value = EditDishState()
+    init {
+        getState()
     }
 
-    fun getState(dishUuid: String) = viewModelScope.launch {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun getState() = viewModelScope.launch {
 
         getDishByIdUseCase(uuid = dishUuid).flatMapLatest { dish ->
             val guestsIds = dish?.guests ?: emptyList()
@@ -41,14 +42,6 @@ class EditDishDialogViewModel @Inject constructor(
         }.collectLatest {
             val guests = it.filterNotNull()
             _state.value = _state.value.copy(guests = guests)
-        }
-    }
-
-    fun saveChanges() = viewModelScope.launch {
-        updateStoredDishUseCase(dish = _state.value.dish)
-        updateStoredCheck(dish = _state.value.dish)
-        _state.value.removedGuests.map {
-            updateGuestUseCase(guest = it)
         }
     }
 
@@ -79,22 +72,63 @@ class EditDishDialogViewModel @Inject constructor(
                     removedGuests = removeGuestsList
                 )
             }
+            EditEvent.ClearState -> handleClearStateEvent()
+            EditEvent.Dismiss -> handleDismissEvent()
+            EditEvent.SaveChanges -> handleSaveChangesEvent()
         }
     }
 
-    private suspend fun updateStoredCheck(dish: Dish) {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun handleSaveChangesEvent() = viewModelScope.launch {
+        removeGuestsFromDishUseCase(_state.value.removedGuests)
+        .flatMapLatest {
+            updateStoredCheck(dish = _state.value.dish)
+        }.flatMapLatest {
+            updateStoredDishUseCase(dish = _state.value.dish)
+        }.collectLatest {
+            /* navigate back */
+            _state.value = _state.value.copy(isEdited = true)
+        }
+    }
 
-        getStoredCheckByIdUseCase(listOf(dish.checkId)).collect { check ->
+    private fun handleDismissEvent() {
+        _state.value = _state.value.copy(isEdited = true)
+    }
+
+    private fun handleClearStateEvent() {
+        _state.value = EditDishState()
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun updateStoredCheck(dish: Dish) =
+        getStoredCheckByIdUseCase(listOf(dish.checkId)).flatMapLatest { check ->
             val updatedCheck = check.firstNotNullOfOrNull {
+                //prevent division by zero
+                val divider = if (dish.guests.isEmpty()) 1 else dish.guests.size
                 it?.copy(
-                    total = ((dish.price.cents * dish.qnt) / dish.guests.size.toFloat())
+                    total = ((dish.price.cents * dish.qnt) / divider.toFloat())
                         .formatMoney()
                         .toMoney(),
                 )
             }
+            updateStoredCheckUseCase(updatedCheck ?: Check())
+        }
 
-            updatedCheck?.let {
-                updateStoredCheckUseCase(it)
+
+    @AssistedFactory
+    interface Factory {
+        fun create(dishUuid: String): EditDishViewModel
+    }
+
+    companion object {
+        fun provideEditDishViewModelFactory(
+            factory: Factory,
+            dishUuid: String
+        ): ViewModelProvider.Factory {
+            return object : ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return factory.create(dishUuid = dishUuid) as T
+                }
             }
         }
     }

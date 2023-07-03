@@ -7,5 +7,5 @@ data class EditDishState(
     val dish: Dish = Dish(),
     val guests: List<Guest> = emptyList(),
     val removedGuests: List<Guest> = emptyList(),
-    val dismiss: Boolean = false,
+    val isEdited: Boolean = false,
 )

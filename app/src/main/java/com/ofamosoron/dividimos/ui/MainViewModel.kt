@@ -3,6 +3,7 @@ package com.ofamosoron.dividimos.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ofamosoron.dividimos.domain.delegate.DialogDelegate
+import com.ofamosoron.dividimos.domain.models.Check
 import com.ofamosoron.dividimos.domain.models.Dish
 import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.domain.usecase.*
@@ -36,12 +37,6 @@ class MainViewModel @Inject constructor(
 
     init {
         updateState()
-    }
-
-    fun addNewGuest(guest: Guest) = viewModelScope.launch {
-        storeGuestUseCase(guest).collectLatest { success ->
-            updateState()
-        }
     }
 
     fun onEvent(event: HomeScreenEvent) {
@@ -97,6 +92,7 @@ class MainViewModel @Inject constructor(
             _mainState.value.copy(openDialog = dialogDelegate.openDialog(dialogType = type))
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun handleOnDropEvent(guestUuid: String, dishUuid: String) = viewModelScope.launch {
         combine(
             getDishByIdUseCase(uuid = dishUuid),
@@ -118,9 +114,11 @@ class MainViewModel @Inject constructor(
             val updatedGuest = guest.copy(checkIds = checkIdList)
 
             updateStoredDishUseCase(updatedDish)
-            updateStoredGuestUseCase(updatedGuest)
-            updateStoredCheck(updatedDish)
-            updateState()
+                .flatMapLatest { updateStoredGuestUseCase(updatedGuest) }
+                .flatMapLatest { updateStoredCheck(updatedDish) }
+                .collectLatest {
+                    updateState()
+                }
         }
     }
 
@@ -129,9 +127,9 @@ class MainViewModel @Inject constructor(
         updateState()
     }
 
-    private suspend fun updateStoredCheck(dish: Dish) {
-
-        getStoredCheckByIdUseCase(listOf(dish.checkId)).collect { check ->
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun updateStoredCheck(dish: Dish) =
+        getStoredCheckByIdUseCase(listOf(dish.checkId)).flatMapLatest { check ->
             val updatedCheck = check.firstNotNullOfOrNull {
                 it?.copy(
                     total = ((dish.price.cents * dish.qnt) / dish.guests.size.toFloat())
@@ -139,12 +137,8 @@ class MainViewModel @Inject constructor(
                         .toMoney(),
                 )
             }
-
-            updatedCheck?.let {
-                updateStoredCheckUseCase(it)
-            }
+            updateStoredCheckUseCase(updatedCheck ?: Check())
         }
-    }
 
     private fun updateState() = viewModelScope.launch {
         combine(getAllGuestsUseCase(), getAllDishesUseCase()) { guests, dishes ->

@@ -1,7 +1,8 @@
 package com.ofamosoron.dividimos.domain.usecase
 
 import com.ofamosoron.dividimos.domain.models.Check
+import kotlinx.coroutines.flow.Flow
 
 interface UpdateStoredCheckUseCase {
-    suspend operator fun invoke(check: Check)
+    operator fun invoke(check: Check): Flow<Boolean>
 }

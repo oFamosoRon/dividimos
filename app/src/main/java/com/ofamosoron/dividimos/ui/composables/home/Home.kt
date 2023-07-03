@@ -14,16 +14,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ofamosoron.dividimos.R
-import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.ui.MainViewModel
 import com.ofamosoron.dividimos.ui.composables.action_menu.CloseTableDialog
 import com.ofamosoron.dividimos.ui.composables.check.CheckDialog
 import com.ofamosoron.dividimos.ui.composables.dialog.DialogType
-import com.ofamosoron.dividimos.ui.composables.dishes_dialog.DishDialog
-import com.ofamosoron.dividimos.ui.composables.edit_dish.EditDishDialog
-import com.ofamosoron.dividimos.ui.composables.guest_dialog.GuestDialog
 import com.ofamosoron.dividimos.ui.composables.header.Header
 import com.ofamosoron.dividimos.ui.drag_and_drop.LongPressDraggable
+import com.ofamosoron.dividimos.ui.navigation.Route
 import com.ofamosoron.dividimos.ui.util.EmptyScreen
 
 @Composable
@@ -40,20 +37,15 @@ fun Home(
     ) {
         ChooseDialog(
             dialogType = state.value.openDialog,
-            action = {
-                viewModel.onEvent(it)
-            },
-            addNewGuest = {
-                viewModel.addNewGuest(it)
-            }
+            action = { viewModel.onEvent(it) }
         )
 
         Column(modifier = Modifier.fillMaxSize()) {
             Header(
-                addNewDish = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.DishDialog())) },
-                addNewGuest = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.GuestDialog())) },
+                addNewDish = { navController.navigate(Route.NewDishScreen.url) },
+                addNewGuest = { navController.navigate(Route.NewGuestScreen.url) },
                 actionMenuOptionOneClick = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.ClearTableDialog())) },
-                actionMenuOptionTwoClick = { },
+                actionMenuOptionTwoClick = { /* TODO */},
                 total = state.value.dishes.sumOf { it.price.cents * it.qnt }
             )
 
@@ -92,11 +84,7 @@ fun Home(
                                     )
                                 )
                             }, onEditClick = { dishUuid: String ->
-                                viewModel.onEvent(
-                                    HomeScreenEvent.OpenDialog(
-                                        dialogType = DialogType.EditDishDialog(dishUuid = dishUuid)
-                                    )
-                                )
+                                navController.navigate(Route.EditDishScreen.withArgs(dishUuid))
                             })
                     }
                 }
@@ -132,33 +120,22 @@ fun Home(
 fun ChooseDialog(
     dialogType: DialogType,
     action: (dialogType: HomeScreenEvent) -> Unit,
-    //TODO temporary parameter
-    addNewGuest: (guest: Guest) -> Unit
 ) {
     if (dialogType.isOpen) {
         when (dialogType) {
             is DialogType.DishDialog -> {
-                DishDialog(onDismiss = {
-                    action(HomeScreenEvent.CloseDialog(dialogType = dialogType))
-                })
+
             }
             is DialogType.GuestDialog -> {
-                GuestDialog(
-                    onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
-                    addNewGuest = { guest ->
-                        addNewGuest(guest)
-                    }
-                )
+
             }
             is DialogType.CheckDialog -> CheckDialog(
                 onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
                 guestId = (dialogType as? DialogType.CheckDialog)?.guestId ?: ""
             )
-            is DialogType.EditDishDialog -> EditDishDialog(
-                onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
-                dishUui = (dialogType as? DialogType.EditDishDialog)?.dishUuid
-                    ?: ""
-            )
+            is DialogType.EditDishDialog -> {
+
+            }
             is DialogType.ClearTableDialog -> CloseTableDialog(
                 onDismiss = { action(HomeScreenEvent.CloseDialog(dialogType = dialogType)) },
                 onProceed = {

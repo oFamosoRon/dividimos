@@ -15,8 +15,7 @@ import javax.inject.Inject
 class CheckViewModel @Inject constructor(
     private val getGuestByIdUseCase: GetGuestByIdUseCase,
     private val getStoredCheckByIdUseCase: GetStoredCheckByIdUseCase,
-) : GetGuestByIdUseCase by getGuestByIdUseCase,
-    ViewModel() {
+) : ViewModel() {
 
     private val _checkState = MutableStateFlow(CheckState())
     val checkState = _checkState.asStateFlow()
