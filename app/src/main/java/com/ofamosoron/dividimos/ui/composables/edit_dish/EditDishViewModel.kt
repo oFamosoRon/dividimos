@@ -103,8 +103,10 @@ class EditDishViewModel @AssistedInject constructor(
     private fun updateStoredCheck(dish: Dish) =
         getStoredCheckByIdUseCase(listOf(dish.checkId)).flatMapLatest { check ->
             val updatedCheck = check.firstNotNullOfOrNull {
+                //prevent division by zero
+                val divider = if (dish.guests.isEmpty()) 1 else dish.guests.size
                 it?.copy(
-                    total = ((dish.price.cents * dish.qnt) / dish.guests.size.toFloat())
+                    total = ((dish.price.cents * dish.qnt) / divider.toFloat())
                         .formatMoney()
                         .toMoney(),
                 )
