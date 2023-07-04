@@ -1,6 +1,7 @@
 package com.ofamosoron.dividimos.ui.composables.home
 
 sealed class HomeScreenEvent {
+    object ClearAlert: HomeScreenEvent()
     object ClearDatabase : HomeScreenEvent()
     data class OpenDialog(val dialogType: DialogType) : HomeScreenEvent()
     data class CloseDialog(val dialogType: DialogType) : HomeScreenEvent()
