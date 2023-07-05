@@ -110,7 +110,7 @@ class MainViewModel @Inject constructor(
 
             if (guestsList.contains(guestUuid)) {
                 _mainState.value = _mainState.value.copy(showAlert = true)
-                return@collect // TODO show alert saying that this guest is already in the list
+                return@collect
             }
 
             guestsList.add(guestUuid)
