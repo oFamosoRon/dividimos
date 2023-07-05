@@ -15,8 +15,7 @@ import javax.inject.Inject
 class CheckViewModel @Inject constructor(
     private val getGuestByIdUseCase: GetGuestByIdUseCase,
     private val getStoredCheckByIdUseCase: GetStoredCheckByIdUseCase,
-) : GetGuestByIdUseCase by getGuestByIdUseCase,
-    ViewModel() {
+) : ViewModel() {
 
     private val _checkState = MutableStateFlow(CheckState())
     val checkState = _checkState.asStateFlow()
@@ -32,11 +31,13 @@ class CheckViewModel @Inject constructor(
                 }
                 _checkState.value = _checkState.value.copy(guest = updatedGuest)
             }
+
             val checkIds = if(guests.filterNotNull().isEmpty()) {
                 emptyList<String>()
             } else {
                 guests.first()?.checkIds ?: emptyList()
             }
+
             getStoredCheckByIdUseCase(checkIds = checkIds)
         }.collectLatest { checks ->
             _checkState.value = _checkState.value.copy(checks = checks.filterNotNull())
