@@ -1,5 +1,6 @@
 package com.ofamosoron.dividimos.ui.composables.home
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -9,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -21,6 +23,7 @@ import com.ofamosoron.dividimos.ui.composables.header.Header
 import com.ofamosoron.dividimos.ui.drag_and_drop.LongPressDraggable
 import com.ofamosoron.dividimos.ui.navigation.Route
 import com.ofamosoron.dividimos.ui.util.EmptyScreen
+import okhttp3.internal.checkDuration
 
 @Composable
 fun Home(
@@ -28,6 +31,16 @@ fun Home(
     navController: NavController,
 ) {
     val state = viewModel.mainState.collectAsState()
+
+    if (state.value.showAlert) {
+        val context = LocalContext.current.applicationContext
+        Toast.makeText(
+            context,
+            "Convidado já está dividindo esse item",
+            Toast.LENGTH_SHORT
+        ).show()
+        viewModel.onEvent(HomeScreenEvent.ClearAlert)
+    }
 
     Box(
         modifier = Modifier
@@ -44,7 +57,7 @@ fun Home(
                 addNewDish = { navController.navigate(Route.NewDishScreen.url) },
                 addNewGuest = { navController.navigate(Route.NewGuestScreen.url) },
                 actionMenuOptionOneClick = { viewModel.onEvent(HomeScreenEvent.OpenDialog(dialogType = DialogType.ClearTableDialog())) },
-                actionMenuOptionTwoClick = { /* TODO */},
+                actionMenuOptionTwoClick = { /* TODO */ },
                 total = state.value.dishes.sumOf { it.price.cents * it.qnt }
             )
 

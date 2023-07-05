@@ -10,4 +10,5 @@ data class MainState(
     val guests: List<Guest> = emptyList(),
     val dishesToGuests: List<DishToGuests> = emptyList(),
     val openDialog: DialogType = DialogType.CheckDialog(false, ""),
+    val showAlert: Boolean = false
 )

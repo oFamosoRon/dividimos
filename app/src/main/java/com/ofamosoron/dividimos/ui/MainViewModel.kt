@@ -54,7 +54,12 @@ class MainViewModel @Inject constructor(
                 dishUuid = event.dishUuid,
                 increase = true
             )
+            is HomeScreenEvent.ClearAlert -> handleClearAlert()
         }
+    }
+
+    private fun handleClearAlert() {
+        _mainState.value = _mainState.value.copy(showAlert = false)
     }
 
     private fun handleDishQuantity(dishUuid: String, increase: Boolean) = viewModelScope.launch {
@@ -104,7 +109,8 @@ class MainViewModel @Inject constructor(
             val checkIdList = guest?.checkIds?.filter { it.isNotBlank() } as MutableList
 
             if (guestsList.contains(guestUuid)) {
-                return@collect // TODO show alert saying that this guest is already in the list
+                _mainState.value = _mainState.value.copy(showAlert = true)
+                return@collect
             }
 
             guestsList.add(guestUuid)
