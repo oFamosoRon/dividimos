@@ -51,6 +51,7 @@ fun NewDishScreen(
         Icon(
             Icons.Default.Close,
             contentDescription = "close",
+            tint = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(8.dp)
