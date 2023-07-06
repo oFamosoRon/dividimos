@@ -26,7 +26,7 @@ fun NavigationGraph(
         }
 
         composable(route = Route.HomeScreen.url) {
-            Home(navController = navController)
+            HomeScreenV2(navController = navController)
         }
 
         composable(route = Route.TutorialScreen.url) {

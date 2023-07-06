@@ -35,7 +35,7 @@ fun ActionMenu(
         ) {
             Icon(
                 Icons.Default.MoreVert,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimary,
                 contentDescription = "menu",
             )
         }
