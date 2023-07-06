@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ofamosoron.dividimos.R
+import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
 import com.ofamosoron.dividimos.ui.navigation.Route
 import com.ofamosoron.dividimos.ui.util.NumberPicker
 import com.ofamosoron.dividimos.util.formatMoney
@@ -148,6 +149,20 @@ fun NewDishScreen(
                     )
                 }
             }
+        }
+
+        Box(modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .fillMaxWidth()
+        ) {
+            BannerAd()
+        }
+
+        Box(modifier = Modifier
+            .align(Alignment.TopCenter)
+            .fillMaxWidth()
+        ) {
+            BannerAd()
         }
     }
 }
