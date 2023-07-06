@@ -68,9 +68,7 @@ fun Home(
                     EmptyScreen(msg = R.string.dishes_alert, icon = R.drawable.ic_empty_table)
                 } else {
                     Box(
-                        modifier = Modifier
-                            .align(Alignment.TopCenter)
-                            .height(420.dp)
+                        modifier = Modifier.align(Alignment.TopCenter).padding(bottom = 56.dp)
                     ) {
                         DishesContainer(
                             dishes = state.value.dishes,

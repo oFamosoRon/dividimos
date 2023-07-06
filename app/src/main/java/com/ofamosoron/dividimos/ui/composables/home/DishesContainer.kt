@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,7 +42,9 @@ fun BoxScope.DishesContainer(
     onDrop: (guestUuid: String, dishUuid: String) -> Unit,
     onEditClick: (dishUuid: String) -> Unit
 ) {
-    Column {
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
         BannerAd()
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(2),
