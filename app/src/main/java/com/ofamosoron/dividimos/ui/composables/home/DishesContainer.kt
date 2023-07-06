@@ -23,6 +23,7 @@ import com.ofamosoron.dividimos.domain.models.Dish
 import com.ofamosoron.dividimos.domain.models.DishToGuests
 import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.domain.models.Money
+import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
 import com.ofamosoron.dividimos.ui.drag_and_drop.DropTarget
 import com.ofamosoron.dividimos.ui.theme.*
 import com.ofamosoron.dividimos.ui.util.CounterTag
@@ -40,25 +41,28 @@ fun BoxScope.DishesContainer(
     onDrop: (guestUuid: String, dishUuid: String) -> Unit,
     onEditClick: (dishUuid: String) -> Unit
 ) {
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        verticalItemSpacing = 4.dp,
-    ) {
-        items(items = dishes) { dish ->
-            DishCard(
-                dish = dish,
-                onDrop = { guestUuid: String, dishUuid: String ->
-                    onDrop(guestUuid, dishUuid)
-                },
-                onIncreaseClick = { onIncreaseClick(dish.uuid) },
-                onDecreaseClick = { onDecreaseClick(dish.uuid) },
-                onEditClick = { onEditClick(dish.uuid) },
-                guests = guests.find { it.dishUuid == dish.uuid }?.guests ?: emptyList()
-            )
+    Column {
+        BannerAd()
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Fixed(2),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalItemSpacing = 4.dp,
+        ) {
+            items(items = dishes) { dish ->
+                DishCard(
+                    dish = dish,
+                    onDrop = { guestUuid: String, dishUuid: String ->
+                        onDrop(guestUuid, dishUuid)
+                    },
+                    onIncreaseClick = { onIncreaseClick(dish.uuid) },
+                    onDecreaseClick = { onDecreaseClick(dish.uuid) },
+                    onEditClick = { onEditClick(dish.uuid) },
+                    guests = guests.find { it.dishUuid == dish.uuid }?.guests ?: emptyList()
+                )
+            }
         }
     }
 
