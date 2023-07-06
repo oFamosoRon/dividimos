@@ -13,10 +13,10 @@ import com.ofamosoron.dividimos.R
 
 @Composable
 fun BannerAd() {
-    val isNotTest = BuildConfig.BUILD_TYPE.equals("release")
+    val isDebug = BuildConfig.BUILD_TYPE.equals("debug")
 
     val unitId =
-        if (isNotTest) {
+        if (isDebug) {
             stringResource(id = R.string.ad_mob_test_banner_id)
         } else {
             stringResource(id = R.string.ad_mob_banner_id)
