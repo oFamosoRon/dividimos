@@ -13,8 +13,8 @@ android {
         applicationId "com.ofamosoron.dividimos"
         minSdk 24
         targetSdk 33
-        versionCode 6
-        versionName "1.0.2"
+        versionCode 7
+        versionName "1.0.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -82,4 +82,7 @@ dependencies {
 
     //compose navigation
     implementation "androidx.navigation:navigation-compose:2.6.0"
+
+    //admob
+    implementation 'com.google.android.gms:play-services-ads:22.2.0'
 }

@@ -19,6 +19,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ofamosoron.dividimos.R
+import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
 import com.ofamosoron.dividimos.ui.util.EmptyScreen
 import com.ofamosoron.dividimos.util.formatMoney
 
@@ -82,6 +83,7 @@ fun CheckDialog(
                 }
                 Spacer(modifier = Modifier.padding(6.dp))
                 Divider()
+                BannerAd()
                 Spacer(modifier = Modifier.padding(6.dp))
 
                 if (state.value.checks.isEmpty()) {

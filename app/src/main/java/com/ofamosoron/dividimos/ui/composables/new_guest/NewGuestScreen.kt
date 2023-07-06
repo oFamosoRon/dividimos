@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ofamosoron.dividimos.R
+import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
 import com.ofamosoron.dividimos.ui.navigation.Route
 
 @Composable
@@ -89,6 +90,20 @@ fun NewGuestScreen(
                     color = MaterialTheme.colorScheme.surface
                 )
             }
+        }
+
+        Box(modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .fillMaxWidth()
+        ) {
+            BannerAd()
+        }
+
+        Box(modifier = Modifier
+            .align(Alignment.TopCenter)
+            .fillMaxWidth()
+        ) {
+            BannerAd()
         }
     }
 }
