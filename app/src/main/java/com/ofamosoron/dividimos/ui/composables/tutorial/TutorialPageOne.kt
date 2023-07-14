@@ -17,6 +17,7 @@ import com.ofamosoron.dividimos.domain.models.Money
 import com.ofamosoron.dividimos.ui.composables.home.DishCard
 import com.ofamosoron.dividimos.ui.composables.home.GuestCard
 
+@SuppressWarnings("LongMethod")
 @Composable
 fun TutorialPageOne() {
     Box(

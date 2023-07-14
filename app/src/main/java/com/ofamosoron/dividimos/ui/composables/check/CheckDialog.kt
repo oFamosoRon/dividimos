@@ -23,6 +23,7 @@ import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
 import com.ofamosoron.dividimos.ui.util.EmptyScreen
 import com.ofamosoron.dividimos.util.formatMoney
 
+@SuppressWarnings("LongMethod")
 @Composable
 fun CheckDialog(
     size: Int = 500,

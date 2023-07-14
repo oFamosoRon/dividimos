@@ -9,3 +9,4 @@ sealed class HomeScreenEvent {
     data class DecreaseDishQuantity(val dishUuid: String) : HomeScreenEvent()
     data class OnDrop(val guestUuid: String, val dishUuid: String) : HomeScreenEvent()
 }
+

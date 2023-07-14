@@ -19,6 +19,7 @@ import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
 import com.ofamosoron.dividimos.ui.navigation.Route
 
+@SuppressWarnings("LongMethod")
 @Composable
 fun NewGuestScreen(
     viewModel: NewGuestViewModel = hiltViewModel(),

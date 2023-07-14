@@ -8,3 +8,4 @@ sealed class NewDishScreenEvent {
     data class SubmitButtonClicked(val name: String, val price: String, val qnt: Int) :
         NewDishScreenEvent()
 }
+

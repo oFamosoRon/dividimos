@@ -25,6 +25,7 @@ import com.ofamosoron.dividimos.ui.util.NumberPicker
 import com.ofamosoron.dividimos.util.formatMoney
 import com.ofamosoron.dividimos.util.toMoney
 
+@SuppressWarnings("LongMethod")
 @Composable
 fun NewDishScreen(
     navController: NavController,

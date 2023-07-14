@@ -5,3 +5,4 @@ sealed class NewGuestScreenEvent {
     object AddNewGuest : NewGuestScreenEvent()
     data class OnNameChanged(val name: String) : NewGuestScreenEvent()
 }
+

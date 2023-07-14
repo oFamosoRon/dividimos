@@ -15,6 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
+@SuppressWarnings("LongParameterList")
 class EditDishViewModel @AssistedInject constructor(
     @Assisted private val dishUuid: String,
     private val getDishByIdUseCase: GetDishByIdUseCase,

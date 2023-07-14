@@ -22,6 +22,7 @@ import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.ui.composables.home.GuestCard
 
+@SuppressWarnings("LongMethod")
 @Composable
 fun TutorialPageTwo() {
     Box(

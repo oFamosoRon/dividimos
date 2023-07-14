@@ -25,6 +25,7 @@ import com.ofamosoron.dividimos.ui.navigation.Route
 import com.ofamosoron.dividimos.ui.util.EmptyScreen
 import okhttp3.internal.checkDuration
 
+@SuppressWarnings("LongMethod")
 @Composable
 fun Home(
     viewModel: MainViewModel = hiltViewModel(),

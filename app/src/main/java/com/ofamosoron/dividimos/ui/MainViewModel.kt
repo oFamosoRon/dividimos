@@ -16,6 +16,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+@SuppressWarnings("LongParameterList")
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getDishByIdUseCase: GetDishByIdUseCase,

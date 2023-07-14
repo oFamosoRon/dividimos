@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 
+@SuppressWarnings("LongMethod")
 @Composable
 fun CloseTableDialog(
     onDismiss: () -> Unit,
@@ -90,3 +91,4 @@ fun CloseTableDialog(
         }
     }
 }
+

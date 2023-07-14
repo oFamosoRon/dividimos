@@ -20,3 +20,4 @@ class GetAllDishesUseCaseImpl @Inject constructor(
         }
     }
 }
+

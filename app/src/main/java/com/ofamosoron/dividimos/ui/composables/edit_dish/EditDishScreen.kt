@@ -27,6 +27,7 @@ import com.ofamosoron.dividimos.ui.util.NumberPicker
 import com.ofamosoron.dividimos.util.formatMoney
 import dagger.hilt.android.EntryPointAccessors
 
+@SuppressWarnings("LongMethod")
 @Composable
 fun EditDishDialog(
     dishUui: String,

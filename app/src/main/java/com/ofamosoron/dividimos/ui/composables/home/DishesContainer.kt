@@ -32,6 +32,7 @@ import com.ofamosoron.dividimos.ui.util.EditButton
 import com.ofamosoron.dividimos.util.formatMoney
 import kotlinx.datetime.Clock
 
+@SuppressWarnings("LongParameterList")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BoxScope.DishesContainer(
@@ -71,6 +72,7 @@ fun BoxScope.DishesContainer(
 
 }
 
+@SuppressWarnings("LongParameterList", "LongMethod")
 @Composable
 fun DishCard(
     guests: List<Guest>,
