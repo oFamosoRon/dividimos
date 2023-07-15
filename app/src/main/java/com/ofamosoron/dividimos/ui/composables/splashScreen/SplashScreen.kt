@@ -15,6 +15,8 @@ import androidx.navigation.NavController
 import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.ui.navigation.Route
 
+private const val COLOR = 0xFF3B2664
+
 @Composable
 fun SplashScreen(
     navController: NavController,
@@ -41,7 +43,7 @@ fun SplashScreen(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF3B2664))
+            .background(Color(COLOR))
     ) {
         Image(
             painter = painterResource(id = R.drawable.splash_logo),

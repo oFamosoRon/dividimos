@@ -103,7 +103,6 @@ fun CheckDialog(
                     EmptyScreen(
                         msg = R.string.dishes_alert,
                         icon = R.drawable.ic_empty_check,
-                        fontSize = 18.sp,
                         space = 16.dp
                     )
                 } else {

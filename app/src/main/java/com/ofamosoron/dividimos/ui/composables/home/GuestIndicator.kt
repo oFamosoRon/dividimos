@@ -22,12 +22,16 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 private const val MAX_ICONS = 5
+private const val ZERO: Int = 0
+private const val SPACER: Int = 15
+private const val ONE: Int = 1
+private const val FOUR: Int = 4
 
 @Composable
 fun GuestIndicatorContainer(guests: List<String>) {
 
     var space by rememberSaveable {
-        mutableStateOf(0)
+        mutableStateOf(ZERO)
     }
 
     Box(
@@ -39,16 +43,16 @@ fun GuestIndicatorContainer(guests: List<String>) {
         val subList = if (guests.size < MAX_ICONS) {
             guests
         } else {
-            guests.subList(0, MAX_ICONS - 1)
+            guests.subList(ZERO, MAX_ICONS - ONE)
         }
         subList.map { item ->
-            GuestIndicator(text = item.substring(0, 1), space = (space).dp)
-            space += 15
+            GuestIndicator(text = item.substring(ZERO, ONE), space = (space).dp)
+            space += SPACER
         }
-        if (guests.size >= 5) {
-            Text(text = "+${(guests.size - 4)}", modifier = Modifier.offset(64.dp))
+        if (guests.size >= MAX_ICONS) {
+            Text(text = "+${(guests.size - FOUR)}", modifier = Modifier.offset(64.dp))
         }
-        space = 0
+        space = ZERO
     }
 
 

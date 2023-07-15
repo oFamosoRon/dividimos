@@ -27,6 +27,8 @@ import com.ofamosoron.dividimos.ui.dragAndDrop.LongPressDraggable
 import com.ofamosoron.dividimos.ui.navigation.Route
 import com.ofamosoron.dividimos.ui.util.EmptyScreen
 
+private const val ALPHA: Float = 0.2F
+
 @SuppressWarnings("LongMethod")
 @Composable
 fun Home(
@@ -108,7 +110,7 @@ fun Home(
                         color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.headlineSmall,
                         modifier = Modifier
-                            .alpha(0.2F)
+                            .alpha(ALPHA)
                             .align(Alignment.BottomCenter)
                             .padding(4.dp)
                     )

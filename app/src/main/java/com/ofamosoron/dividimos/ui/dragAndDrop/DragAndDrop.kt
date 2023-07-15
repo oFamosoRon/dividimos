@@ -19,8 +19,12 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
+import com.ofamosoron.dividimos.util.Constants.ZERO
 
 internal val LocalDragTargetInfo = compositionLocalOf { DragTargetInfo() }
+private const val SCALE: Float = 1.3f
+private const val ALPHA_FINAL: Float = 0.9F
+private const val DIVIDER: Int = 2
 
 @Composable
 fun LongPressDraggable(
@@ -40,11 +44,11 @@ fun LongPressDraggable(
                 Box(modifier = Modifier
                     .graphicsLayer {
                         val offset = (state.dragPosition + state.dragOffset)
-                        scaleX = 1.3f
-                        scaleY = 1.3f
-                        alpha = if (targetSize == IntSize.Zero) 0f else .9f
-                        translationX = offset.x.minus(targetSize.width / 2)
-                        translationY = offset.y.minus(targetSize.height / 2)
+                        scaleX = SCALE
+                        scaleY = SCALE
+                        alpha = if (targetSize == IntSize.Zero) ZERO else ALPHA_FINAL
+                        translationX = offset.x.minus(targetSize.width / DIVIDER)
+                        translationY = offset.y.minus(targetSize.height / DIVIDER)
                     }
                     .onGloballyPositioned {
                         targetSize = it.size
