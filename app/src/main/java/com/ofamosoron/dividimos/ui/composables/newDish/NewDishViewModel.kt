@@ -1,4 +1,4 @@
-package com.ofamosoron.dividimos.ui.composables.new_dish
+package com.ofamosoron.dividimos.ui.composables.newDish
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,6 +24,8 @@ class NewDishViewModel @Inject constructor(
     private val _state = MutableStateFlow(NewDishState())
     val state = _state.asStateFlow()
 
+    //TODO refactor
+    @SuppressWarnings("LongMethod", "CyclomaticComplexMethod")
     fun onEvent(event: NewDishScreenEvent) {
         when (event) {
             is NewDishScreenEvent.NameChanged -> {

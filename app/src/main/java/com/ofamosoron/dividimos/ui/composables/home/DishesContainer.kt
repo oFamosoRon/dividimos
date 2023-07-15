@@ -1,7 +1,18 @@
 package com.ofamosoron.dividimos.ui.composables.home
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -15,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,13 +35,18 @@ import com.ofamosoron.dividimos.domain.models.DishToGuests
 import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.domain.models.Money
 import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
-import com.ofamosoron.dividimos.ui.drag_and_drop.DropTarget
-import com.ofamosoron.dividimos.ui.theme.*
+import com.ofamosoron.dividimos.ui.dragAndDrop.DropTarget
+import com.ofamosoron.dividimos.ui.theme.md_theme_dark_primary_gradient
+import com.ofamosoron.dividimos.ui.theme.md_theme_dark_tertiary_gradient
+import com.ofamosoron.dividimos.ui.theme.md_theme_light_tertiary_gradient
+import com.ofamosoron.dividimos.ui.theme.md_theme_light_primary_gradient
+import com.ofamosoron.dividimos.ui.theme.DividimosTheme
 import com.ofamosoron.dividimos.ui.util.CounterTag
 import com.ofamosoron.dividimos.ui.util.EditButton
 import com.ofamosoron.dividimos.util.formatMoney
 import kotlinx.datetime.Clock
 
+@SuppressWarnings("LongParameterList")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BoxScope.DishesContainer(
@@ -71,6 +86,7 @@ fun BoxScope.DishesContainer(
 
 }
 
+@SuppressWarnings("LongParameterList", "LongMethod")
 @Composable
 fun DishCard(
     guests: List<Guest>,

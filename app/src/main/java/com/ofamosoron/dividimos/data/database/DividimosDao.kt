@@ -1,10 +1,15 @@
 package com.ofamosoron.dividimos.data.database
 
-import androidx.room.*
+import androidx.room.Insert
+import androidx.room.Dao
+import androidx.room.OnConflictStrategy
+import androidx.room.Update
+import androidx.room.Query
 import com.ofamosoron.dividimos.data.entities.CheckEntity
 import com.ofamosoron.dividimos.data.entities.DishesEntity
 import com.ofamosoron.dividimos.data.entities.GuestsEntity
 
+@SuppressWarnings("TooManyFunctions")
 @Dao
 interface DividimosDao {
 

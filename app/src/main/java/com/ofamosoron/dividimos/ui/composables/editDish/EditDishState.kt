@@ -1,4 +1,4 @@
-package com.ofamosoron.dividimos.ui.composables.edit_dish
+package com.ofamosoron.dividimos.ui.composables.editDish
 
 import com.ofamosoron.dividimos.domain.models.Dish
 import com.ofamosoron.dividimos.domain.models.Guest

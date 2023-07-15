@@ -1,4 +1,4 @@
-package com.ofamosoron.dividimos.ui.composables.new_dish
+package com.ofamosoron.dividimos.ui.composables.newDish
 
 data class NewDishState(
     val dishName: String = "",

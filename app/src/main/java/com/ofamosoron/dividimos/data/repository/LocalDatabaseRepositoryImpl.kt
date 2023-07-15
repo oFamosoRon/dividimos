@@ -13,6 +13,7 @@ import com.ofamosoron.dividimos.util.toMoney
 import kotlinx.datetime.toInstant
 import javax.inject.Inject
 
+@SuppressWarnings("TooManyFunctions")
 class LocalDatabaseRepositoryImpl @Inject constructor(
     private val dao: DividimosDao
 ) : LocalDatabaseRepository {

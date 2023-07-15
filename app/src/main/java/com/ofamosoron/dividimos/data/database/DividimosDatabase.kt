@@ -1,6 +1,9 @@
 package com.ofamosoron.dividimos.data.database
 
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.TypeConverters
+import androidx.room.TypeConverter
+import androidx.room.RoomDatabase
 import com.ofamosoron.dividimos.data.entities.CheckEntity
 import com.ofamosoron.dividimos.data.entities.DishesEntity
 import com.ofamosoron.dividimos.data.entities.GuestsEntity

@@ -1,4 +1,4 @@
-package com.ofamosoron.dividimos.ui.composables.new_dish
+package com.ofamosoron.dividimos.ui.composables.newDish
 
 sealed class NewDishScreenEvent {
     object ClearState: NewDishScreenEvent()
@@ -8,3 +8,4 @@ sealed class NewDishScreenEvent {
     data class SubmitButtonClicked(val name: String, val price: String, val qnt: Int) :
         NewDishScreenEvent()
 }
+

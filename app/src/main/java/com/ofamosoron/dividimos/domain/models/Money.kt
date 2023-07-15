@@ -5,3 +5,4 @@ data class Money(
     val currency: String = "R$",
     val precision: Int = 100
 )
+

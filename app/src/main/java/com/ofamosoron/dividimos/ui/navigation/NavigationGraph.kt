@@ -6,11 +6,11 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.ofamosoron.dividimos.ui.composables.edit_dish.EditDishDialog
+import com.ofamosoron.dividimos.ui.composables.editDish.EditDishDialog
 import com.ofamosoron.dividimos.ui.composables.home.Home
-import com.ofamosoron.dividimos.ui.composables.new_dish.NewDishScreen
-import com.ofamosoron.dividimos.ui.composables.new_guest.NewGuestScreen
-import com.ofamosoron.dividimos.ui.composables.splash_screen.SplashScreen
+import com.ofamosoron.dividimos.ui.composables.newDish.NewDishScreen
+import com.ofamosoron.dividimos.ui.composables.newGuest.NewGuestScreen
+import com.ofamosoron.dividimos.ui.composables.splashScreen.SplashScreen
 import com.ofamosoron.dividimos.ui.composables.tutorial.Tutorial
 import com.ofamosoron.dividimos.ui.composables.tutorial.TutorialPageOne
 import com.ofamosoron.dividimos.ui.composables.tutorial.TutorialPageThree
@@ -31,7 +31,6 @@ fun NavigationGraph(
 
         composable(route = Route.TutorialScreen.url) {
             Tutorial(
-                navController = navController,
                 list = listOf(
                     { TutorialPageOne() },
                     { TutorialPageTwo() },

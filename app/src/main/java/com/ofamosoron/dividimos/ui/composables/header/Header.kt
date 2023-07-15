@@ -1,6 +1,11 @@
 package com.ofamosoron.dividimos.ui.composables.header
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -12,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ofamosoron.dividimos.R
-import com.ofamosoron.dividimos.ui.composables.home.ActionMenu
+import com.ofamosoron.dividimos.ui.composables.actionMenu.ActionMenu
 import com.ofamosoron.dividimos.util.formatMoney
 
 @Composable
@@ -66,9 +71,6 @@ fun Header(
                 ActionMenu(
                     onOptionOneClick = {
                         actionMenuOptionOneClick()
-                    },
-                    onOptionTwoClick = {
-                        actionMenuOptionTwoClick()
                     }
                 )
             }

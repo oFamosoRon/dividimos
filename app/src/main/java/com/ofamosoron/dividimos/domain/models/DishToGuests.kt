@@ -5,3 +5,4 @@ data class DishToGuests(
     val dishName: String,
     val guests: List<Guest>
 )
+

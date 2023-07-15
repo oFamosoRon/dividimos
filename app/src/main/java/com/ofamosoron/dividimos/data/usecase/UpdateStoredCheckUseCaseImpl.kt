@@ -17,5 +17,4 @@ class UpdateStoredCheckUseCaseImpl(
             emit(false)
         }
     }
-
 }

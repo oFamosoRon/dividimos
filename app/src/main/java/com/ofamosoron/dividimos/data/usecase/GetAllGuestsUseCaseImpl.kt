@@ -19,5 +19,5 @@ class GetAllGuestsUseCaseImpl @Inject constructor(
             emit(emptyList())
         }
     }
-
 }
+

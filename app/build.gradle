@@ -5,6 +5,8 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+apply from: '../config/detekt/detekt.gradle'
+
 android {
     namespace 'com.ofamosoron.dividimos'
     compileSdk 33
@@ -57,6 +59,8 @@ dependencies {
     implementation "androidx.compose.material3:material3:1.1.0"
     debugImplementation "androidx.compose.ui:ui-tooling:1.4.3"
     debugImplementation "androidx.compose.ui:ui-test-manifest:1.4.3"
+
+    testImplementation 'junit:junit:4.12'
 
     //Dagger-hilt
     kapt "com.google.dagger:hilt-compiler:2.44"
