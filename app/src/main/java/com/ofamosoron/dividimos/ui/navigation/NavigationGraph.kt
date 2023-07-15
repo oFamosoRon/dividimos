@@ -31,7 +31,6 @@ fun NavigationGraph(
 
         composable(route = Route.TutorialScreen.url) {
             Tutorial(
-                navController = navController,
                 list = listOf(
                     { TutorialPageOne() },
                     { TutorialPageTwo() },

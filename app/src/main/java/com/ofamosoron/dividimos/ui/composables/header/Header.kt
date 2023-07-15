@@ -71,9 +71,6 @@ fun Header(
                 ActionMenu(
                     onOptionOneClick = {
                         actionMenuOptionOneClick()
-                    },
-                    onOptionTwoClick = {
-                        actionMenuOptionTwoClick()
                     }
                 )
             }

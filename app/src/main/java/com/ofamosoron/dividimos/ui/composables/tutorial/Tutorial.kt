@@ -25,7 +25,6 @@ import androidx.navigation.NavController
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Tutorial(
-    navController: NavController,
     list: List<@Composable () -> Unit>
 ) {
     val pagerState = rememberPagerState()

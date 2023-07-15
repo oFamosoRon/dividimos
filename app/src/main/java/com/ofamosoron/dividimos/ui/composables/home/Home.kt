@@ -29,7 +29,7 @@ import com.ofamosoron.dividimos.ui.util.EmptyScreen
 
 private const val ALPHA: Float = 0.2F
 
-@SuppressWarnings("LongMethod")
+@SuppressWarnings("LongMethod", "MaxLineLength")
 @Composable
 fun Home(
     viewModel: MainViewModel = hiltViewModel(),

@@ -19,7 +19,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
-import com.ofamosoron.dividimos.util.Constants.ZERO
+import com.ofamosoron.dividimos.util.Constants.FLOAT_ZERO
 
 internal val LocalDragTargetInfo = compositionLocalOf { DragTargetInfo() }
 private const val SCALE: Float = 1.3f
@@ -46,7 +46,7 @@ fun LongPressDraggable(
                         val offset = (state.dragPosition + state.dragOffset)
                         scaleX = SCALE
                         scaleY = SCALE
-                        alpha = if (targetSize == IntSize.Zero) ZERO else ALPHA_FINAL
+                        alpha = if (targetSize == IntSize.Zero) FLOAT_ZERO else ALPHA_FINAL
                         translationX = offset.x.minus(targetSize.width / DIVIDER)
                         translationY = offset.y.minus(targetSize.height / DIVIDER)
                     }

@@ -9,6 +9,7 @@ import com.ofamosoron.dividimos.data.entities.CheckEntity
 import com.ofamosoron.dividimos.data.entities.DishesEntity
 import com.ofamosoron.dividimos.data.entities.GuestsEntity
 
+@SuppressWarnings("TooManyFunctions")
 @Dao
 interface DividimosDao {
 

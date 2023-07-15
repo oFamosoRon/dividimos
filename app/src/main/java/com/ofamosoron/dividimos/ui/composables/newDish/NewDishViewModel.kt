@@ -24,7 +24,8 @@ class NewDishViewModel @Inject constructor(
     private val _state = MutableStateFlow(NewDishState())
     val state = _state.asStateFlow()
 
-    @SuppressWarnings("LongMethod")
+    //TODO refactor
+    @SuppressWarnings("LongMethod", "CyclomaticComplexMethod")
     fun onEvent(event: NewDishScreenEvent) {
         when (event) {
             is NewDishScreenEvent.NameChanged -> {

@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 @Composable
 fun ActionMenu(
     onOptionOneClick: () -> Unit,
-    onOptionTwoClick: () -> Unit
 ) {
     val expandedState = remember { mutableStateOf(false) }
 

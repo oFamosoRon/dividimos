@@ -115,7 +115,9 @@ object AppModule {
         ClearDatabaseUseCaseImpl(localDatabaseRepository = localDatabaseRepository)
 
     @Provides
-    fun provideRemoveGuestsFromDishUseCase(localDatabaseRepository: LocalDatabaseRepository): RemoveGuestsFromDishUseCase =
+    fun provideRemoveGuestsFromDishUseCase(
+        localDatabaseRepository: LocalDatabaseRepository
+    ): RemoveGuestsFromDishUseCase =
         RemoveGuestsFromDishUseCaseImpl(localDatabaseRepository = localDatabaseRepository)
 
     @Provides
