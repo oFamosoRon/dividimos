@@ -2,7 +2,10 @@ package com.ofamosoron.dividimos.ui.composables.home
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,13 +20,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.ui.MainViewModel
-import com.ofamosoron.dividimos.ui.composables.action_menu.CloseTableDialog
+import com.ofamosoron.dividimos.ui.composables.actionMenu.CloseTableDialog
 import com.ofamosoron.dividimos.ui.composables.check.CheckDialog
 import com.ofamosoron.dividimos.ui.composables.header.Header
-import com.ofamosoron.dividimos.ui.drag_and_drop.LongPressDraggable
+import com.ofamosoron.dividimos.ui.dragAndDrop.LongPressDraggable
 import com.ofamosoron.dividimos.ui.navigation.Route
 import com.ofamosoron.dividimos.ui.util.EmptyScreen
-import okhttp3.internal.checkDuration
 
 @SuppressWarnings("LongMethod")
 @Composable

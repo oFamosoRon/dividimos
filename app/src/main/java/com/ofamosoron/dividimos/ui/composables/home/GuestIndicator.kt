@@ -2,7 +2,11 @@ package com.ofamosoron.dividimos.ui.composables.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,10 +21,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+private const val MAX_ICONS = 5
+
 @Composable
 fun GuestIndicatorContainer(guests: List<String>) {
-
-    val MAX_ICONS = 5
 
     var space by rememberSaveable {
         mutableStateOf(0)

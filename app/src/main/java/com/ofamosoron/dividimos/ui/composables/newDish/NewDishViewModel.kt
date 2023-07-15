@@ -1,4 +1,4 @@
-package com.ofamosoron.dividimos.ui.composables.new_dish
+package com.ofamosoron.dividimos.ui.composables.newDish
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

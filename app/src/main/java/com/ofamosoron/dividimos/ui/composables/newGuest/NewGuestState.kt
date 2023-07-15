@@ -1,4 +1,4 @@
-package com.ofamosoron.dividimos.ui.composables.new_guest
+package com.ofamosoron.dividimos.ui.composables.newGuest
 
 import com.ofamosoron.dividimos.domain.models.Guest
 

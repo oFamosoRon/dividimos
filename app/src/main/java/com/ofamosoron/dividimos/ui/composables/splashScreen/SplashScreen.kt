@@ -1,4 +1,4 @@
-package com.ofamosoron.dividimos.ui.composables.splash_screen
+package com.ofamosoron.dividimos.ui.composables.splashScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

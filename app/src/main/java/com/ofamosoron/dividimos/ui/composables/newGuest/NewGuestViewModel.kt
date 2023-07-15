@@ -1,4 +1,4 @@
-package com.ofamosoron.dividimos.ui.composables.new_guest
+package com.ofamosoron.dividimos.ui.composables.newGuest
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

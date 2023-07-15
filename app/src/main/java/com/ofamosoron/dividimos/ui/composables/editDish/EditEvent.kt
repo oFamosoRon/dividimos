@@ -1,4 +1,4 @@
-package com.ofamosoron.dividimos.ui.composables.edit_dish
+package com.ofamosoron.dividimos.ui.composables.editDish
 
 sealed class EditEvent {
     object ClearState: EditEvent()
