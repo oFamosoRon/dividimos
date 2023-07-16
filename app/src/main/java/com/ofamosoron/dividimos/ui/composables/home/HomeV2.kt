@@ -19,8 +19,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.ui.MainViewModel
-import com.ofamosoron.dividimos.ui.composables.action_menu.ActionMenu
-import com.ofamosoron.dividimos.ui.drag_and_drop.LongPressDraggable
+import com.ofamosoron.dividimos.ui.composables.actionMenu.ActionMenu
+import com.ofamosoron.dividimos.ui.dragAndDrop.LongPressDraggable
 import com.ofamosoron.dividimos.ui.navigation.Route
 import com.ofamosoron.dividimos.ui.util.EmptyScreen
 
@@ -173,7 +173,6 @@ fun CustomTopBar(
 
                 ActionMenu(
                     onOptionOneClick = { /*TODO*/ },
-                    onOptionTwoClick = { }
                 )
             }
         }
