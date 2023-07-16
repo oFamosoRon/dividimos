@@ -29,9 +29,8 @@ fun HomeScreenV2(
     viewModel: MainViewModel = hiltViewModel(),
     navController: NavController,
 ) {
-    TODO()
     Scaffold(
-        topBar = { CustomTopBar() },
+        topBar = { CustomTopBar({}, {}) },
     ) { padding ->
         val state = viewModel.mainState.collectAsState()
 
@@ -174,7 +173,7 @@ fun CustomTopBar(
 
                 ActionMenu(
                     onOptionOneClick = { /*TODO*/ },
-                    onOptionTwoClick = {  }
+                    onOptionTwoClick = { }
                 )
             }
         }
