@@ -25,7 +25,6 @@ fun Header(
     addNewDish: () -> Unit,
     addNewGuest: () -> Unit,
     actionMenuOptionOneClick: () -> Unit,
-    actionMenuOptionTwoClick: () -> Unit,
     total: Long,
 ) {
     Row(
