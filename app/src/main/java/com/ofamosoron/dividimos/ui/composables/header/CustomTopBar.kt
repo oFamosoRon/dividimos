@@ -24,6 +24,7 @@ fun CustomTopBar(
     orderAmount: Money? = null,
     showActionMenu: Boolean = true,
     actionMenuClearOrderClick: () -> Unit,
+    actionMenuAddServiceFeeClick: () -> Unit,
     navigationIcon: @Composable () -> Unit,
 ) {
     TopAppBar(
@@ -53,7 +54,10 @@ fun CustomTopBar(
         },
         actions = {
             if (showActionMenu) {
-                ActionMenu(onClearOrderClick = { actionMenuClearOrderClick() })
+                ActionMenu(
+                    onClearOrderClick = { actionMenuClearOrderClick() },
+                    onAddServiceFeeClick = { actionMenuAddServiceFeeClick() }
+                )
             }
         }
     )
