@@ -99,13 +99,7 @@ fun CheckDialog(
                 BannerAd()
                 Spacer(modifier = Modifier.padding(6.dp))
 
-                if (state.value.checks.isEmpty()) {
-                    EmptyScreen(
-                        msg = R.string.dishes_alert,
-                        icon = R.drawable.ic_empty_check,
-                        space = 16.dp
-                    )
-                } else {
+                if (!state.value.checks.isEmpty()) {
                     LazyColumn(
                         modifier = Modifier.fillMaxWidth()
                     ) {

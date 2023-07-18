@@ -1,18 +1,18 @@
 package com.ofamosoron.dividimos.ui.composables.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -36,11 +36,11 @@ import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.domain.models.Money
 import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
 import com.ofamosoron.dividimos.ui.dragAndDrop.DropTarget
+import com.ofamosoron.dividimos.ui.theme.DividimosTheme
 import com.ofamosoron.dividimos.ui.theme.md_theme_dark_primary_gradient
 import com.ofamosoron.dividimos.ui.theme.md_theme_dark_tertiary_gradient
-import com.ofamosoron.dividimos.ui.theme.md_theme_light_tertiary_gradient
 import com.ofamosoron.dividimos.ui.theme.md_theme_light_primary_gradient
-import com.ofamosoron.dividimos.ui.theme.DividimosTheme
+import com.ofamosoron.dividimos.ui.theme.md_theme_light_tertiary_gradient
 import com.ofamosoron.dividimos.ui.util.CounterTag
 import com.ofamosoron.dividimos.ui.util.EditButton
 import com.ofamosoron.dividimos.util.formatMoney
@@ -60,12 +60,9 @@ fun BoxScope.DishesContainer(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        BannerAd()
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(2),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier = Modifier.padding(start = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalItemSpacing = 4.dp,
         ) {

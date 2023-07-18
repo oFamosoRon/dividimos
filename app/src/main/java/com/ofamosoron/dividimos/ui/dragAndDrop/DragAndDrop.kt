@@ -4,12 +4,13 @@ import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -19,6 +20,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
 import com.ofamosoron.dividimos.util.Constants.FLOAT_ZERO
 
 internal val LocalDragTargetInfo = compositionLocalOf { DragTargetInfo() }
@@ -63,7 +65,6 @@ fun LongPressDraggable(
 
 @Composable
 fun <T> DragTarget(
-    modifier: Modifier,
     dataToDrop: T,
     content: @Composable (() -> Unit)
 ) {
@@ -71,7 +72,7 @@ fun <T> DragTarget(
     var currentPosition by remember { mutableStateOf(Offset.Zero) }
     val currentState = LocalDragTargetInfo.current
 
-    Box(modifier = modifier
+    Box(modifier = Modifier
         .onGloballyPositioned {
             currentPosition = it.localToWindow(Offset.Zero)
         }
@@ -80,7 +81,11 @@ fun <T> DragTarget(
                 currentState.dataToDrop = dataToDrop
                 currentState.isDragging = true
                 currentState.dragPosition = currentPosition + it
-                currentState.draggableComposable = content
+                currentState.draggableComposable = {
+                    Box(modifier = Modifier.size(100.dp)) {
+                        content()
+                    }
+                }
             }, onDrag = { change, dragAmount ->
                 change.consumeAllChanges()
                 currentState.dragOffset += Offset(dragAmount.x, dragAmount.y)

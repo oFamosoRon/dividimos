@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
+import com.ofamosoron.dividimos.ui.composables.header.CustomTopBar
 import com.ofamosoron.dividimos.ui.navigation.Route
 
 @SuppressWarnings("LongMethod")
@@ -46,75 +49,100 @@ fun NewGuestScreen(
         }
     }
 
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
-
-    ) {
-
-        Icon(
-            Icons.Default.Close,
-            contentDescription = "close",
-            tint = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(8.dp)
-                .clickable {
-                    navController.navigate(Route.HomeScreen.url) {
-                        popUpTo(Route.NewGuestScreen.url) {
-                            this.inclusive = true
-                        }
-                    }
+    Scaffold(
+        topBar = {
+            CustomTopBar(
+                title = "Novo convidado",
+                showActionMenu = false,
+                actionMenuClearOrderClick = {},
+                navigationIcon = {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        contentDescription = null,
+                        modifier = Modifier.clickable {
+                            navController.navigate(route = Route.HomeScreen.url) {
+                                popUpTo(route = Route.NewDishScreen.url) {
+                                    inclusive = true
+                                }
+                            }
+                        })
                 }
-        )
-
-        Column(
+            )
+        }
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+                .background(MaterialTheme.colorScheme.surface)
+
         ) {
-            OutlinedTextField(
-                value = state.value.guest.name,
-                onValueChange = {
-                    viewModel.onEvent(NewGuestScreenEvent.OnNameChanged(name = it))
-                },
-                placeholder = { Text(stringResource(id = R.string.guest_dialog_name_placeholder)) },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
-            )
-            Spacer(modifier = Modifier.padding(8.dp))
-            Button(
+
+            Icon(
+                Icons.Default.Close,
+                contentDescription = "close",
+                tint = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(MaterialTheme.shapes.medium)
-                    .background(MaterialTheme.colorScheme.primary),
-                onClick = {
-                    viewModel.onEvent(NewGuestScreenEvent.AddNewGuest)
-                }
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp)
+                    .clickable {
+                        navController.navigate(Route.HomeScreen.url) {
+                            popUpTo(Route.NewGuestScreen.url) {
+                                this.inclusive = true
+                            }
+                        }
+                    }
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    stringResource(id = R.string.guest_dialog_add_button_label),
-                    color = MaterialTheme.colorScheme.surface
+                OutlinedTextField(
+                    value = state.value.guest.name,
+                    onValueChange = {
+                        viewModel.onEvent(NewGuestScreenEvent.OnNameChanged(name = it))
+                    },
+                    placeholder = { Text(stringResource(id = R.string.guest_dialog_name_placeholder)) },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
                 )
+                Spacer(modifier = Modifier.padding(8.dp))
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(MaterialTheme.shapes.medium)
+                        .background(MaterialTheme.colorScheme.primary),
+                    onClick = {
+                        viewModel.onEvent(NewGuestScreenEvent.AddNewGuest)
+                    }
+                ) {
+                    Text(
+                        stringResource(id = R.string.guest_dialog_add_button_label),
+                        color = MaterialTheme.colorScheme.surface
+                    )
+                }
             }
-        }
 
-        Box(modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .fillMaxWidth()
-        ) {
-            BannerAd()
-        }
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+            ) {
+                BannerAd()
+            }
 
-        Box(modifier = Modifier
-            .align(Alignment.TopCenter)
-            .fillMaxWidth()
-        ) {
-            BannerAd()
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxWidth()
+            ) {
+                BannerAd()
+            }
         }
     }
 }
