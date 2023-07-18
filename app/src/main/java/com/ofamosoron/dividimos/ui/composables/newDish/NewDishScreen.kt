@@ -34,6 +34,8 @@ import androidx.navigation.NavController
 import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
 import com.ofamosoron.dividimos.ui.composables.header.CustomTopBar
+import com.ofamosoron.dividimos.ui.composables.home.DialogType
+import com.ofamosoron.dividimos.ui.composables.home.HomeScreenEvent
 import com.ofamosoron.dividimos.ui.navigation.Route
 import com.ofamosoron.dividimos.ui.util.NumberPicker
 import com.ofamosoron.dividimos.util.formatMoney
@@ -58,19 +60,22 @@ fun NewDishScreen(
     }
 
     Scaffold(topBar = {
-        CustomTopBar(title = "Novo item", navigationIcon = {
-            Icon(
-                Icons.Default.ArrowBack,
-                tint = MaterialTheme.colorScheme.onPrimary,
-                contentDescription = null,
-                modifier = Modifier.clickable {
-                    navController.navigate(route = Route.HomeScreen.url) {
-                        popUpTo(route = Route.NewDishScreen.url) {
-                            inclusive = true
+        CustomTopBar(
+            title = "Novo item",
+            navigationIcon = {
+                Icon(
+                    Icons.Default.ArrowBack,
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    contentDescription = null,
+                    modifier = Modifier.clickable {
+                        navController.navigate(route = Route.HomeScreen.url) {
+                            popUpTo(route = Route.NewDishScreen.url) {
+                                inclusive = true
+                            }
                         }
-                    }
-                })
-        })
+                    })
+            }
+        )
     }) { padding ->
         Box(
             contentAlignment = Alignment.Center,

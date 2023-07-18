@@ -26,6 +26,7 @@ fun CustomTopBar(
     navigationIcon: @Composable () -> Unit,
     onClickAction1: (() -> Unit)? = null,
     onClickAction2: (() -> Unit)? = null,
+    actionMenuOptionOneClick: (() -> Unit)? = null,
 ) {
     TopAppBar(
         navigationIcon = {
@@ -76,7 +77,11 @@ fun CustomTopBar(
                 }
 
                 ActionMenu(
-                    onOptionOneClick = { /*TODO*/ },
+                    onOptionOneClick = {
+                        if (actionMenuOptionOneClick != null) {
+                            actionMenuOptionOneClick()
+                        }
+                    }
                 )
             }
         }
