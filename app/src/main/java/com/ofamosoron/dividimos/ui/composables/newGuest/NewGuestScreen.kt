@@ -53,6 +53,8 @@ fun NewGuestScreen(
         topBar = {
             CustomTopBar(
                 title = "Novo convidado",
+                showActionMenu = false,
+                actionMenuClearOrderClick = {},
                 navigationIcon = {
                     Icon(
                         Icons.Default.ArrowBack,
@@ -126,16 +128,18 @@ fun NewGuestScreen(
                 }
             }
 
-            Box(modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
             ) {
                 BannerAd()
             }
 
-            Box(modifier = Modifier
-                .align(Alignment.TopCenter)
-                .fillMaxWidth()
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxWidth()
             ) {
                 BannerAd()
             }

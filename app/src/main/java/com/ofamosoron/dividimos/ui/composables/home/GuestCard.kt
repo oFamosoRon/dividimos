@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,7 +33,7 @@ fun BoxScope.GuestsContainer(
 ) {
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(end = 16.dp)
+        modifier = modifier.padding(end = 4.dp)
     ) {
         items(items = guests) { guest ->
             GuestCard(guest = guest) { guestUuid ->
@@ -44,14 +46,14 @@ fun BoxScope.GuestsContainer(
 
 @Composable
 fun GuestCard(guest: Guest, onClick: (String) -> Unit) {
-    DragTarget(dataToDrop = guest, modifier = Modifier) {
+    DragTarget(dataToDrop = guest) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
+                .fillMaxWidth()
                 .clip(RoundedCornerShape(5.dp))
                 .background(color = MaterialTheme.colorScheme.secondaryContainer)
-                .fillMaxSize()
                 .padding(6.dp)
                 .clickable { onClick(guest.uuid) })
         {

@@ -62,7 +62,7 @@ fun BoxScope.DishesContainer(
     ) {
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(2),
-            modifier = Modifier.padding(start = 16.dp),
+            modifier = Modifier.padding(start = 4.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalItemSpacing = 4.dp,
         ) {

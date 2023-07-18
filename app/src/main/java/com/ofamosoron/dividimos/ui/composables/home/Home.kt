@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -27,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.ofamosoron.dividimos.ui.MainState
 import com.ofamosoron.dividimos.ui.MainViewModel
 import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
 import com.ofamosoron.dividimos.ui.composables.header.CustomTopBar
@@ -35,9 +37,7 @@ import com.ofamosoron.dividimos.ui.navigation.Route
 import com.ofamosoron.dividimos.ui.util.EmptyScreen
 
 private const val DISHES_WIGHT = 3F
-private const val DISHES_BUTTON_WIGHT = 3.1F
 private const val GUESTS_WIGHT = 1F
-private const val GUESTS_BUTTON_WIGHT = 0.9F
 
 @SuppressWarnings("LongMethod")
 @Composable
@@ -45,19 +45,23 @@ fun HomeScreenV2(
     viewModel: MainViewModel = hiltViewModel(),
     navController: NavController,
 ) {
+    val state = viewModel.mainState.collectAsState()
+
     Scaffold(
-        topBar = { CustomTopBar(title = "Dividimos", navigationIcon = {}) },
+        topBar = {
+            CustomTopBar(
+                title = "Dividimos",
+                orderAmount = state.value.total(),
+                actionMenuClearOrderClick = {
+                    viewModel.onEvent(HomeScreenEvent.OpenDialog(DialogType.ClearTableDialog()))
+                }
+            ) { Unit }
+        },
     ) { padding ->
-        val state = viewModel.mainState.collectAsState()
+
 
         if (state.value.showAlert) {
-            val context = LocalContext.current.applicationContext
-            Toast.makeText(
-                context,
-                "Convidado já está dividindo esse item",
-                Toast.LENGTH_SHORT
-            ).show()
-            viewModel.onEvent(HomeScreenEvent.ClearAlert)
+            ToastMsg(viewModel)
         }
 
         Box(
@@ -73,69 +77,96 @@ fun HomeScreenV2(
 
             Column {
                 BannerAd()
-                Row(modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp)) {
-                    AddButton(weight = DISHES_BUTTON_WIGHT, icon = Icons.Default.AddCircle) {
-                        navController.navigate(route = Route.NewDishScreen.url)
-                    }
-                    Spacer(modifier = Modifier.padding(4.dp))
-                    AddButton(weight = GUESTS_BUTTON_WIGHT, icon = Icons.Default.Person) {
-                        navController.navigate(route = Route.NewGuestScreen.url)
-                    }
+                if (state.value.dishes.isNotEmpty()) {
+                    AddButtons(navController)
                 }
                 LongPressDraggable {
                     if (state.value.dishes.isEmpty()) {
                         EmptyScreen { navController.navigate(route = Route.NewDishScreen.url) }
                     } else {
-                        Row(modifier = Modifier.padding(top = 4.dp)) {
-                            Box(modifier = Modifier.weight(DISHES_WIGHT)) {
-                                DishesContainer(
-                                    dishes = state.value.dishes,
-                                    guests = state.value.dishesToGuests,
-                                    onIncreaseClick = { dishUuid ->
-                                        viewModel.onEvent(
-                                            HomeScreenEvent.IncreaseDishQuantity(
-                                                dishUuid = dishUuid
-                                            )
-                                        )
-                                    },
-                                    onDecreaseClick = { dishUuid ->
-                                        viewModel.onEvent(
-                                            HomeScreenEvent.DecreaseDishQuantity(
-                                                dishUuid = dishUuid
-                                            )
-                                        )
-                                    }, onDrop = { guestUuid, dishUuid ->
-                                        viewModel.onEvent(
-                                            HomeScreenEvent.OnDrop(
-                                                guestUuid = guestUuid,
-                                                dishUuid = dishUuid
-                                            )
-                                        )
-                                    }, onEditClick = { dishUuid: String ->
-                                        navController.navigate(
-                                            Route.EditDishScreen.withArgs(
-                                                dishUuid
-                                            )
-                                        )
-                                    })
-                            }
-                            Spacer(modifier = Modifier.padding(4.dp))
-                            Box(modifier = Modifier.weight(GUESTS_WIGHT)) {
-                                GuestsContainer(
-                                    guests = state.value.guests,
-                                    cardClick = {
-                                        viewModel.onEvent(
-                                            HomeScreenEvent.OpenDialog(
-                                                dialogType = DialogType.CheckDialog(guestId = it)
-                                            )
-                                        )
-                                    }
-                                )
-                            }
-                        }
+                        HomeContent(state.value, viewModel, navController)
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ToastMsg(viewModel: MainViewModel) {
+    val context = LocalContext.current.applicationContext
+    Toast.makeText(
+        context,
+        "Convidado já está dividindo esse item",
+        Toast.LENGTH_SHORT
+    ).show()
+    viewModel.onEvent(HomeScreenEvent.ClearAlert)
+}
+
+@Composable
+private fun HomeContent(
+    state: MainState,
+    viewModel: MainViewModel,
+    navController: NavController
+) {
+    Row(modifier = Modifier.padding(top = 4.dp)) {
+        Box(modifier = Modifier.weight(DISHES_WIGHT)) {
+            DishesContainer(
+                dishes = state.dishes,
+                guests = state.dishesToGuests,
+                onIncreaseClick = { dishUuid ->
+                    viewModel.onEvent(
+                        HomeScreenEvent.IncreaseDishQuantity(
+                            dishUuid = dishUuid
+                        )
+                    )
+                },
+                onDecreaseClick = { dishUuid ->
+                    viewModel.onEvent(
+                        HomeScreenEvent.DecreaseDishQuantity(
+                            dishUuid = dishUuid
+                        )
+                    )
+                }, onDrop = { guestUuid, dishUuid ->
+                    viewModel.onEvent(
+                        HomeScreenEvent.OnDrop(
+                            guestUuid = guestUuid,
+                            dishUuid = dishUuid
+                        )
+                    )
+                }, onEditClick = { dishUuid: String ->
+                    navController.navigate(
+                        Route.EditDishScreen.withArgs(
+                            dishUuid
+                        )
+                    )
+                })
+        }
+        Spacer(modifier = Modifier.padding(4.dp))
+        Box(modifier = Modifier.weight(GUESTS_WIGHT)) {
+            GuestsContainer(
+                guests = state.guests,
+                cardClick = {
+                    viewModel.onEvent(
+                        HomeScreenEvent.OpenDialog(
+                            dialogType = DialogType.CheckDialog(guestId = it)
+                        )
+                    )
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun AddButtons(navController: NavController) {
+    Row(modifier = Modifier.padding(top = 8.dp, start = 4.dp, end = 4.dp)) {
+        AddButton(weight = DISHES_WIGHT, icon = Icons.Default.AddCircle) {
+            navController.navigate(route = Route.NewDishScreen.url)
+        }
+        Spacer(modifier = Modifier.padding(2.dp))
+        AddButton(weight = GUESTS_WIGHT, icon = Icons.Default.Person) {
+            navController.navigate(route = Route.NewGuestScreen.url)
         }
     }
 }
@@ -149,15 +180,16 @@ fun RowScope.AddButton(
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
+            .fillMaxWidth()
             .clip(RoundedCornerShape(5.dp))
+            .background(MaterialTheme.colorScheme.primary)
             .weight(weight)
-            .background(MaterialTheme.colorScheme.secondary)
             .clickable { onClick() }
     ) {
         Icon(
             icon,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSecondary,
+            tint = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.padding(8.dp)
         )
     }

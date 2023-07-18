@@ -62,6 +62,10 @@ fun NewDishScreen(
     Scaffold(topBar = {
         CustomTopBar(
             title = "Novo item",
+            showActionMenu = false,
+            actionMenuClearOrderClick = {
+//                viewModel.onEvent(HomeScreenEvent.ClearDatabase)
+            },
             navigationIcon = {
                 Icon(
                     Icons.Default.ArrowBack,

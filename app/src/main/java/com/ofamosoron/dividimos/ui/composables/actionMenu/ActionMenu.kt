@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun ActionMenu(
-    onOptionOneClick: () -> Unit,
+    onClearOrderClick: () -> Unit,
 ) {
     val expandedState = remember { mutableStateOf(false) }
 
@@ -61,7 +61,7 @@ fun ActionMenu(
 
             DropdownMenuItem(
                 onClick = {
-                    onOptionOneClick()
+                    onClearOrderClick()
                     expandedState.value = false
                 },
                 text = { Text(text = "Fechar a conta") }
