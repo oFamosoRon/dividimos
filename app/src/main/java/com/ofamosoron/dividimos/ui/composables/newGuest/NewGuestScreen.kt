@@ -55,6 +55,7 @@ fun NewGuestScreen(
                 title = "Novo convidado",
                 showActionMenu = false,
                 actionMenuClearOrderClick = {},
+                actionMenuAddServiceFeeClick = {},
                 navigationIcon = {
                     Icon(
                         Icons.Default.ArrowBack,

@@ -34,8 +34,6 @@ import androidx.navigation.NavController
 import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
 import com.ofamosoron.dividimos.ui.composables.header.CustomTopBar
-import com.ofamosoron.dividimos.ui.composables.home.DialogType
-import com.ofamosoron.dividimos.ui.composables.home.HomeScreenEvent
 import com.ofamosoron.dividimos.ui.navigation.Route
 import com.ofamosoron.dividimos.ui.util.NumberPicker
 import com.ofamosoron.dividimos.util.formatMoney
@@ -63,9 +61,8 @@ fun NewDishScreen(
         CustomTopBar(
             title = "Novo item",
             showActionMenu = false,
-            actionMenuClearOrderClick = {
-//                viewModel.onEvent(HomeScreenEvent.ClearDatabase)
-            },
+            actionMenuAddServiceFeeClick = { },
+            actionMenuClearOrderClick = { },
             navigationIcon = {
                 Icon(
                     Icons.Default.ArrowBack,

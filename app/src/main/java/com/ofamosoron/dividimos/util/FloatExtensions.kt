@@ -16,7 +16,7 @@ fun Float.formatMoney(): String {
     return decimalFormat.format(parsedValue)
 }
 
-object Constants {
+object FloatConstants {
     val FLOAT_ZERO: Float
         get() = ZERO
 }

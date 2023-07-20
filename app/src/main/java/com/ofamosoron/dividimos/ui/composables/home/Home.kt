@@ -54,6 +54,9 @@ fun HomeScreenV2(
                 orderAmount = state.value.total(),
                 actionMenuClearOrderClick = {
                     viewModel.onEvent(HomeScreenEvent.OpenDialog(DialogType.ClearTableDialog()))
+                },
+                actionMenuAddServiceFeeClick = {
+                    navController.navigate(route = Route.AddServiceFeeScreen.url)
                 }
             ) { Unit }
         },
@@ -135,11 +138,7 @@ private fun HomeContent(
                         )
                     )
                 }, onEditClick = { dishUuid: String ->
-                    navController.navigate(
-                        Route.EditDishScreen.withArgs(
-                            dishUuid
-                        )
-                    )
+                    navController.navigate(Route.EditDishScreen.withArgs(dishUuid))
                 })
         }
         Spacer(modifier = Modifier.padding(4.dp))

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ofamosoron.dividimos.domain.delegate.DialogDelegate
 import com.ofamosoron.dividimos.domain.models.Check
 import com.ofamosoron.dividimos.domain.models.Dish
+import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.domain.usecase.GetAllDishesUseCase
 import com.ofamosoron.dividimos.domain.usecase.GetDishByIdUseCase
 import com.ofamosoron.dividimos.domain.usecase.GetGuestByIdUseCase
@@ -14,8 +15,10 @@ import com.ofamosoron.dividimos.domain.usecase.UpdateGuestUseCase
 import com.ofamosoron.dividimos.domain.usecase.UpdateStoredDishUseCase
 import com.ofamosoron.dividimos.domain.usecase.UpdateStoredCheckUseCase
 import com.ofamosoron.dividimos.domain.usecase.GetStoredCheckByIdUseCase
+import com.ofamosoron.dividimos.domain.usecase.SharedPreferencesUseCase
 import com.ofamosoron.dividimos.ui.composables.home.DialogType
 import com.ofamosoron.dividimos.ui.composables.home.HomeScreenEvent
+import com.ofamosoron.dividimos.util.SharedPreferencesHelper.SERVICE_FEE
 import com.ofamosoron.dividimos.util.dishToGuests
 import com.ofamosoron.dividimos.util.formatMoney
 import com.ofamosoron.dividimos.util.toMoney
@@ -39,6 +42,7 @@ class MainViewModel @Inject constructor(
     private val clearDatabaseUseCase: ClearDatabaseUseCase,
     private val updateStoredGuestUseCase: UpdateGuestUseCase,
     private val updateStoredDishUseCase: UpdateStoredDishUseCase,
+    private val sharedPreferencesUseCase: SharedPreferencesUseCase,
     private val updateStoredCheckUseCase: UpdateStoredCheckUseCase,
     private val getStoredCheckByIdUseCase: GetStoredCheckByIdUseCase,
     private val dialogDelegate: DialogDelegate,
@@ -84,7 +88,7 @@ class MainViewModel @Inject constructor(
                 increase -> {
                     it.copy(qnt = it.qnt + 1)
                 }
-                !increase && (currentQnt > 0)  -> {
+                !increase && (currentQnt > 0) -> {
                     it.copy(qnt = it.qnt - 1)
                 }
                 else -> it.copy(qnt = 0)
@@ -164,11 +168,14 @@ class MainViewModel @Inject constructor(
         combine(getAllGuestsUseCase(), getAllDishesUseCase()) { guests, dishes ->
             guests to dishes
         }.collectLatest { (guests, dishes) ->
+            val serviceFee = sharedPreferencesUseCase.read(SERVICE_FEE, Float::class) ?: 0F
             _mainState.value = _mainState.value.copy(
                 dishes = dishes,
                 guests = guests,
-                dishesToGuests = dishes.map { dishToGuests(it, guests) }
+                dishesToGuests = dishes.map { dishToGuests(it, guests) },
+                serviceFee = serviceFee
             )
         }
     }
 }
+

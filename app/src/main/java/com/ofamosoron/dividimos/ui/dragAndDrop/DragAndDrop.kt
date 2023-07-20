@@ -21,7 +21,7 @@ import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.ofamosoron.dividimos.util.Constants.FLOAT_ZERO
+import com.ofamosoron.dividimos.util.FloatConstants.FLOAT_ZERO
 
 internal val LocalDragTargetInfo = compositionLocalOf { DragTargetInfo() }
 private const val SCALE: Float = 1.3f
