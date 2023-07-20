@@ -55,7 +55,8 @@ fun ServiceFeeScreen(
                 title = "Taxa de Serviço",
                 showActionMenu = false,
                 actionMenuClearOrderClick = { /*TODO*/ },
-                actionMenuAddServiceFeeClick = { /*TODO*/ }
+                actionMenuAddServiceFeeClick = { /*TODO*/ },
+                actionMenuAddCouvertClick = { /*TODO*/ }
             ) {
                 Icon(
                     Icons.Default.ArrowBack,

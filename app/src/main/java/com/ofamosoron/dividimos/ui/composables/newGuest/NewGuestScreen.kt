@@ -56,6 +56,7 @@ fun NewGuestScreen(
                 showActionMenu = false,
                 actionMenuClearOrderClick = {},
                 actionMenuAddServiceFeeClick = {},
+                actionMenuAddCouvertClick = {},
                 navigationIcon = {
                     Icon(
                         Icons.Default.ArrowBack,

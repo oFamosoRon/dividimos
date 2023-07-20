@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 fun ActionMenu(
     onClearOrderClick: () -> Unit,
     onAddServiceFeeClick: () -> Unit,
+    onAddCouvertClick: () -> Unit
 ) {
     val expandedState = remember { mutableStateOf(false) }
 
@@ -51,10 +52,13 @@ fun ActionMenu(
 //            )
 
 
-//            DropdownMenuItem(
-//                onClick = { /* TODO */ },
-//                text = { Text(text = "Courvert Artistico") }
-//            )
+            DropdownMenuItem(
+                onClick = {
+                    onAddCouvertClick()
+                    expandedState.value = false
+                },
+                text = { Text(text = "Courvert Artistico") }
+            )
 
             DropdownMenuItem(
                 onClick = {
