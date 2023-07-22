@@ -46,19 +46,6 @@ fun ActionMenu(
             expanded = expandedState.value,
             onDismissRequest = { expandedState.value = false }
         ) {
-//            DropdownMenuItem(
-//                onClick = { /* TODO */ },
-//                text = { Text(text = "Sobre nos") }
-//            )
-
-
-            DropdownMenuItem(
-                onClick = {
-                    onAddCouvertClick()
-                    expandedState.value = false
-                },
-                text = { Text(text = "Courvert Artistico") }
-            )
 
             DropdownMenuItem(
                 onClick = {
@@ -66,6 +53,14 @@ fun ActionMenu(
                     expandedState.value = false
                 },
                 text = { Text(text = "Taxa de serviço") }
+            )
+
+            DropdownMenuItem(
+                onClick = {
+                    onAddCouvertClick()
+                    expandedState.value = false
+                },
+                text = { Text(text = "Courvert Artistico") }
             )
 
             DropdownMenuItem(

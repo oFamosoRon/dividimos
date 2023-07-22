@@ -19,6 +19,7 @@ import com.ofamosoron.dividimos.util.Constants.PERCENT_DIVISOR
 
 @Composable
 fun ExtraFee(
+    feeType: FeeType,
     serviceValue: Float,
     onClick: () -> Unit,
 ) {
@@ -31,8 +32,12 @@ fun ExtraFee(
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .clickable { onClick() }
     ) {
+        val label = when (feeType) {
+            FeeType.Couvert -> "Couvert: $serviceValue"
+            FeeType.Service -> "Serviço: $serviceValue%"
+        }
         Text(
-            text = "Serviço: $serviceValue%",
+            text = label,
             color = MaterialTheme.colorScheme.onTertiary,
             style = MaterialTheme.typography.bodySmall,
         )
@@ -43,6 +48,6 @@ fun ExtraFee(
 @Composable
 fun PreviewServiceFee() {
     DividimosTheme {
-        ExtraFee(PERCENT_DIVISOR.toFloat(), {})
+        ExtraFee(FeeType.Service, PERCENT_DIVISOR.toFloat(), {})
     }
 }

@@ -80,18 +80,18 @@ fun ServiceFeeScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                ExtraFee(serviceValue = 10F) {
+                ExtraFee(serviceValue = 10F, feeType = FeeType.Service) {
                     viewModel.onEvent(ExtraFeeEvent.UpdateValue(SERVICE_FEE_10))
                     viewModel.onEvent(ExtraFeeEvent.AddFee)
                     navigateBack(navController = navController)
 
                 }
-                ExtraFee(serviceValue = 11F) {
+                ExtraFee(serviceValue = 11F, feeType = FeeType.Service) {
                     viewModel.onEvent(ExtraFeeEvent.UpdateValue(SERVICE_FEE_11))
                     viewModel.onEvent(ExtraFeeEvent.AddFee)
                     navigateBack(navController = navController)
                 }
-                ExtraFee(serviceValue = 15F) {
+                ExtraFee(serviceValue = 15F, feeType = FeeType.Service) {
                     viewModel.onEvent(ExtraFeeEvent.UpdateValue(SERVICE_FEE_15))
                     viewModel.onEvent(ExtraFeeEvent.AddFee)
                     navigateBack(navController = navController)

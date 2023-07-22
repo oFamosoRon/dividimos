@@ -6,6 +6,8 @@ import com.ofamosoron.dividimos.domain.models.Guest
 import com.ofamosoron.dividimos.domain.usecase.GetGuestByIdUseCase
 import com.ofamosoron.dividimos.domain.usecase.GetStoredCheckByIdUseCase
 import com.ofamosoron.dividimos.domain.usecase.SharedPreferencesUseCase
+import com.ofamosoron.dividimos.util.SharedPreferencesHelper.COUVERT_FEE
+import com.ofamosoron.dividimos.util.SharedPreferencesHelper.IS_COUVERT_INDIVIDUAL
 import com.ofamosoron.dividimos.util.SharedPreferencesHelper.SERVICE_FEE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,6 +31,14 @@ class CheckViewModel @Inject constructor(
     init {
         sharedPreferencesUseCase.read(SERVICE_FEE, Float::class)?.let {
             _checkState.value = _checkState.value.copy(serviceFee = it)
+        }
+
+        sharedPreferencesUseCase.read(COUVERT_FEE, Float::class)?.let {
+            _checkState.value = _checkState.value.copy(couvertFee = it)
+        }
+
+        sharedPreferencesUseCase.read(IS_COUVERT_INDIVIDUAL, Boolean::class)?.let {
+            _checkState.value = _checkState.value.copy(isIndividual = it)
         }
     }
 
