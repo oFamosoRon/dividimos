@@ -33,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ofamosoron.dividimos.R
 import com.ofamosoron.dividimos.ui.composables.admob.BannerAd
 import com.ofamosoron.dividimos.ui.composables.extraFee.ExtraFee
+import com.ofamosoron.dividimos.ui.composables.extraFee.FeeType
 import com.ofamosoron.dividimos.ui.util.EmptyScreen
 import com.ofamosoron.dividimos.util.Constants.PERCENT_DIVISOR
 import com.ofamosoron.dividimos.util.formatMoney
@@ -83,9 +84,16 @@ fun CheckDialog(
                     verticalAlignment = Alignment.Bottom,
                     horizontalArrangement = Arrangement.Start
                 ) {
+                    /*
+                    * TODO
+                    *  All this calculations should be done at the viewModel
+                    * */
                     val itemsTotal = state.value.checks.sumOf { it.total.cents }
                     val serviceFee = state.value.serviceFee
-                    val total = (itemsTotal + (itemsTotal.times(serviceFee))).div(PERCENT_DIVISOR)
+                    val couvertFee = state.value.couvertFee
+                    val total =
+                        (itemsTotal.times(serviceFee)).div(PERCENT_DIVISOR) + itemsTotal + couvertFee
+                            .times(PERCENT_DIVISOR)
                     Text(
                         text = state.value.guest.name,
                         color = MaterialTheme.colorScheme.onSurface,
@@ -104,9 +112,26 @@ fun CheckDialog(
                 Spacer(modifier = Modifier.padding(6.dp))
 
                 if (state.value.checks.isNotEmpty()) {
-                    if (state.value.serviceFee > 0F) {
-                        ExtraFee(serviceValue = state.value.serviceFee) { Unit }
+                    Row(
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        if (state.value.serviceFee > 0F) {
+                            ExtraFee(
+                                serviceValue = state.value.serviceFee,
+                                feeType = FeeType.Service
+                            ) { Unit }
+                        }
+                        Spacer(modifier = Modifier.padding(8.dp))
+                        if (state.value.couvertFee > 0F) {
+                            ExtraFee(
+                                serviceValue = state.value.couvertFee,
+                                feeType = FeeType.Couvert
+                            ) { Unit }
+                        }
                     }
+
                     LazyColumn(
                         modifier = Modifier.fillMaxWidth()
                     ) {

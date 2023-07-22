@@ -41,7 +41,7 @@ private const val GUESTS_WIGHT = 1F
 
 @SuppressWarnings("LongMethod")
 @Composable
-fun HomeScreenV2(
+fun Home(
     viewModel: MainViewModel = hiltViewModel(),
     navController: NavController,
 ) {
@@ -57,6 +57,9 @@ fun HomeScreenV2(
                 },
                 actionMenuAddServiceFeeClick = {
                     navController.navigate(route = Route.AddServiceFeeScreen.url)
+                },
+                actionMenuAddCouvertClick = {
+                    navController.navigate(route = Route.AddCouvertFeeScreen.url)
                 }
             ) { Unit }
         },

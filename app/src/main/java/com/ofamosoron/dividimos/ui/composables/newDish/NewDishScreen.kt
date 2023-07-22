@@ -63,6 +63,7 @@ fun NewDishScreen(
             showActionMenu = false,
             actionMenuAddServiceFeeClick = { },
             actionMenuClearOrderClick = { },
+            actionMenuAddCouvertClick = { },
             navigationIcon = {
                 Icon(
                     Icons.Default.ArrowBack,
