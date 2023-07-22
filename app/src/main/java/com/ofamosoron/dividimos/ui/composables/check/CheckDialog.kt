@@ -84,9 +84,16 @@ fun CheckDialog(
                     verticalAlignment = Alignment.Bottom,
                     horizontalArrangement = Arrangement.Start
                 ) {
+                    /*
+                    * TODO
+                    *  All this calculations should be done at the viewModel
+                    * */
                     val itemsTotal = state.value.checks.sumOf { it.total.cents }
                     val serviceFee = state.value.serviceFee
-                    val total = (itemsTotal + (itemsTotal.times(serviceFee))).div(PERCENT_DIVISOR)
+                    val couvertFee = state.value.couvertFee
+                    val total =
+                        (itemsTotal.times(serviceFee)).div(PERCENT_DIVISOR) + itemsTotal + couvertFee
+                            .times(PERCENT_DIVISOR)
                     Text(
                         text = state.value.guest.name,
                         color = MaterialTheme.colorScheme.onSurface,
