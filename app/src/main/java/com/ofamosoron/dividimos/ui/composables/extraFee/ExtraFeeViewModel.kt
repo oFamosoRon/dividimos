@@ -16,13 +16,19 @@ class ExtraFeeViewModel @Inject constructor(
     private val _state = MutableStateFlow(ExtraFeeState())
     val state = _state.asStateFlow()
 
+    init {
+        sharedPreferencesUseCase.read(SERVICE_FEE, Float::class)?.let {
+            _state.value = _state.value.copy(fee = it)
+        }
+    }
+
     fun onEvent(event: ExtraFeeEvent) {
         when (event) {
             is ExtraFeeEvent.AddFee -> {
-                sharedPreferencesUseCase.write(SERVICE_FEE, _state.value.serviceFee)
+                sharedPreferencesUseCase.write(SERVICE_FEE, _state.value.fee)
             }
             is ExtraFeeEvent.UpdateValue -> {
-                _state.value = _state.value.copy(serviceFee = event.feeValue)
+                _state.value = _state.value.copy(fee = event.feeValue)
             }
             else -> Unit
         }

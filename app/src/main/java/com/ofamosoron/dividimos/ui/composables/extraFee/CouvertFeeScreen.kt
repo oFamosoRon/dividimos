@@ -82,7 +82,7 @@ fun CouvertFeeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 OutlinedTextField(
-                    value = state.value.serviceFee.toString(),
+                    value = state.value.fee.toString(),
                     onValueChange = { newValue ->
                         viewModel.onEvent(ExtraFeeEvent.UpdateValue(newValue.toFloat()))
                     },

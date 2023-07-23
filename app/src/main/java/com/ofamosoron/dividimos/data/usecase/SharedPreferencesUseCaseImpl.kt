@@ -62,6 +62,10 @@ class SharedPreferencesUseCaseImpl(
 
     }
 
+    override fun clear() {
+        context.deleteSharedPreferences(SHARED_PREFERENCES_NAME)
+    }
+
     sealed class TypeName(val name: String) {
         object TypeInt: TypeName(name = "Int")
         object TypeLong: TypeName(name = "Long")

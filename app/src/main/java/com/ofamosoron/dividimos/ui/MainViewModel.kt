@@ -147,6 +147,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun handleClearDatabaseEvent() = viewModelScope.launch {
+        sharedPreferencesUseCase.clear()
         clearDatabaseUseCase()
         updateState()
     }
