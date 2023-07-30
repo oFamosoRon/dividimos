@@ -1,37 +1,28 @@
-package com.ofamosoron.dividimos
+package com.ofamosoron.dividimos.homeScreen.topBar
 
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextContains
-import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.ofamosoron.dividimos.ui.homeScreen.HomeScreen
-import com.ofamosoron.dividimos.ui.homeScreen.HomeScreenTags.TOP_BAR
-import com.ofamosoron.dividimos.ui.homeScreen.HomeScreenTags.TOP_BAR_ACTIONS
-import com.ofamosoron.dividimos.ui.homeScreen.HomeScreenTags.TOP_BAR_LABEL
+import com.ofamosoron.dividimos.homeScreen.BaseHomeScreenTest
+import com.ofamosoron.dividimos.ui.homeScreen.HomeScreenTags
+import com.ofamosoron.dividimos.ui.homeScreen.HomeScreenTopBar
 import com.ofamosoron.dividimos.ui.theme.DividimosTheme
-import org.junit.Rule
 import org.junit.Test
 
-class HomeScreenFeature {
-
-    @get:Rule
-    val testRule = createComposeRule()
+class HomeScreenTopBarFeature: BaseHomeScreenTest() {
 
     @Test
     fun topBarTitleIsDisplayed() {
         testRule.setContent {
             DividimosTheme {
-                HomeScreen()
+                HomeScreenTopBar()
             }
         }
 
-        testRule.onNodeWithTag(TOP_BAR)
-            .assertIsDisplayed()
-
-        testRule.onNodeWithTag(TOP_BAR_LABEL)
+        testRule.onNodeWithTag(HomeScreenTags.TOP_BAR_LABEL)
             .assertTextContains("Dividimos")
             .assertIsDisplayed()
     }
@@ -40,11 +31,11 @@ class HomeScreenFeature {
     fun isActionMenuIconVisible() {
         testRule.setContent {
             DividimosTheme {
-                HomeScreen()
+                HomeScreenTopBar()
             }
         }
 
-        testRule.onNodeWithTag(TOP_BAR_ACTIONS)
+        testRule.onNodeWithTag(HomeScreenTags.TOP_BAR_ACTIONS)
             .assertHasClickAction()
             .assertIsDisplayed()
     }
@@ -53,11 +44,11 @@ class HomeScreenFeature {
     fun whenClickingActionMenuIconExpandsOrCollapseDropDownMenu() {
         testRule.setContent {
             DividimosTheme {
-                HomeScreen()
+                HomeScreenTopBar()
             }
         }
 
-        testRule.onNodeWithTag(TOP_BAR_ACTIONS)
+        testRule.onNodeWithTag(HomeScreenTags.TOP_BAR_ACTIONS)
             .performClick()
 
         testRule.onNodeWithText("Taxa de serviço")
@@ -69,7 +60,7 @@ class HomeScreenFeature {
         testRule.onNodeWithText("Fechar a conta")
             .assertIsDisplayed()
 
-        testRule.onNodeWithTag(TOP_BAR_ACTIONS)
+        testRule.onNodeWithTag(HomeScreenTags.TOP_BAR_ACTIONS)
             .performClick()
     }
 }

@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.ofamosoron.dividimos.ui.homeScreen.HomeScreen
+import com.ofamosoron.dividimos.ui.homeScreen.HomeScreenTopBar
 import com.ofamosoron.dividimos.ui.theme.DividimosTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DividimosTheme {
-                HomeScreen()
+                HomeScreenTopBar()
             }
         }
     }
@@ -24,5 +24,5 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    HomeScreen()
+    HomeScreenTopBar()
 }
